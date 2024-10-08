@@ -11,7 +11,7 @@ import InstructionCard from '../../components/Results/InstructionCard'
 import { useVideoPlayer, VideoView } from 'expo-video';
 
 const videoSource =
-    'http://commondatastorage.googleapis.com/gtv-videos-bucket/sample/ElephantsDream.mp4';
+    'https://videos.pexels.com/video-files/15465878/15465878-hd_1080_1920_30fps.mp4';
 
 export default function ResultsScreen() {
     const ref = useRef(null);
@@ -32,7 +32,7 @@ export default function ResultsScreen() {
       }, [player]);
   return (
     <ScrollView>
-    <Text style={styles.title}>Saddle Adjustment Instructions</Text>
+    <Text style={styles.title}>Results</Text>
       <div style={styles.videoContainer}>
           <VideoView
                   ref={ref}
@@ -61,7 +61,7 @@ const styles = StyleSheet.create({
     fontSize: "4vw", // Responsive title size
     fontWeight: 'bold',
     textAlign: 'center',
-    marginBottom: 20,
+    marginBottom:   "10%",
     marginTop: "10%",
   },
   videoContainer: {
@@ -70,9 +70,10 @@ const styles = StyleSheet.create({
     marginBottom: 30,
   },
   video: {
-    width: '100%',
-    height: '100%',
-    borderRadius: 10,
+    width: '94%',
+//     height: '100%',
+    borderRadius: 5,
+    marginLeft: "3%",
     backgroundColor: 'black', // Ensures the background is black while the video loads
   },
   instructionsContainer: {
