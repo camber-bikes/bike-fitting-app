@@ -44,8 +44,9 @@ export default function ResultsScreen() {
           </div>
       <View style={styles.instructionsContainer}>
         <InstructionCard direction={"up"} amount={+2}></InstructionCard>
-        <InstructionCard direction={"up"} amount={+2}></InstructionCard>
-        <InstructionCard direction={"up"} amount={+2}></InstructionCard>
+        <InstructionCard direction={"down"} amount={+2}></InstructionCard>
+        <InstructionCard direction={"left"} amount={+2}></InstructionCard>
+        <InstructionCard direction={"right"} amount={+2}></InstructionCard>
       </View>
     </ScrollView>
   );

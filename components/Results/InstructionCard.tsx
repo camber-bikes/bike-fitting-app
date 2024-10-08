@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { StyleSheet, Text, View, Image, Animated } from 'react-native';
-import { VscArrowDown } from 'react-icons/vsc';
+import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
 
 export default InstructionCard = ({ direction, amount }) => {
   const [isToggled, setIsToggled] = useState(false);
@@ -17,6 +17,24 @@ export default InstructionCard = ({ direction, amount }) => {
     }).start();
   };
 
+  const correctArrowIcon = () => {
+    switch (direction) {
+        case "up":
+            return (<VscArrowUp style={styles.arrowIcon} />);
+            break;
+        case "down":
+            return (<VscArrowDown style={styles.arrowIcon} />);
+            break;
+        case "left":
+            return (<VscArrowLeft style={styles.arrowIcon} />);
+            break;
+        case "right":
+            return (<VscArrowRight style={styles.arrowIcon} />)
+            break;
+        default: break;
+      }
+  };
+
   return (
     <View>
       <View onClick={toggleAccordion} style={styles.card}>
@@ -28,9 +46,9 @@ export default InstructionCard = ({ direction, amount }) => {
                 style={styles.saddleIcon}
               />
             </View>
-            <VscArrowDown style={styles.arrowIcon} />
+            {correctArrowIcon()}
           </View>
-          <Text style={styles.resultText}>{`${amount} cm.`}</Text>
+          <Text style={styles.resultText}>{`${amount} cm`}</Text>
           <Text style={styles.resultText}>{`Move saddle ${direction}`}</Text>
         </View>
       </View>
