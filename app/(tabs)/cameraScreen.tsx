@@ -10,7 +10,7 @@ import { CameraFrame } from '@/components/CameraFrame'
 
 export default function TabTwoScreen() {
   return (
-    <CameraFrame></CameraFrame>
+    <CameraFrame cameraMode='video'></CameraFrame>
   );
 }
 

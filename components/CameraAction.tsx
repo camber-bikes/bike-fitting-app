@@ -9,15 +9,15 @@ function handleTakePicture() {
 }
 
 interface CameraActionProps {
-    /*handleTakePicture: () => void;*/
+    handleCameraShutter: () => void;
     cameraMode: CameraMode;
-    isRecording: boolean;
+    isRecording : boolean;
 }
-export default function CameraAction({ cameraMode, isRecording }: CameraActionProps) {
+export default function CameraAction({ cameraMode, isRecording, handleCameraShutter }: CameraActionProps) {
     return(
         <View>
 
-            <TouchableOpacity onPress={handleTakePicture}>
+            <TouchableOpacity onPress={handleCameraShutter}>
                 {/* Ads Camera and Video Shutter for iPhone */}
                 <SymbolView 
                     name= { isRecording === true ? "stop.circle"
@@ -26,7 +26,7 @@ export default function CameraAction({ cameraMode, isRecording }: CameraActionPr
                     size={90}
                     type= "palette"
                     colors={
-                            cameraMode === "picture" ? ["white", "white"]
+                            cameraMode === "picture" ? "white"
                             : ["red", "white"]
                     }
                     fallback={
