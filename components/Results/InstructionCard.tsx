@@ -68,7 +68,7 @@ export default InstructionCard = ({ direction, amount }) => {
 
 const styles = StyleSheet.create({
   resultText: {
-    fontSize: "4vw",
+    fontSize: "175%",
     padding: "2%",
     marginHorizontal: "3%",
     marginVertical: "3%"
@@ -79,7 +79,7 @@ const styles = StyleSheet.create({
     paddingHorizontal: "2%",
     marginBottom: "3%",
     borderRadius: 5,
-    boxShadow: '0px 2px 4px rgba(0, 0, 0, 0.1)',
+    boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
   },
   cardTitle: {
     display: 'flex',
