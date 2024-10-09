@@ -5,6 +5,8 @@ import {Pressable} from "expo-router/build/views/Pressable";
 import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
+          BASE_URL = 'http://localhost:8000';
+          fetch(BASE_URL + '/api/healthcheck')
         const navigation = useNavigation();
 
         return (
