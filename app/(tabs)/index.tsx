@@ -8,6 +8,8 @@ import { ThemedView } from '@/components/ThemedView';
 import HomePage from '../../components/HomePage';
 
 export default function HomeScreen() {
+  BASE_URL = 'http://localhost:8000';
+  fetch(BASE_URL + '/api/healthcheck')
   return (
       <HomePage/>
   );
