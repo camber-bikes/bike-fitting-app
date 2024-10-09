@@ -9,6 +9,8 @@ export default function HomeScreen() {
           fetch(BASE_URL + '/api/healthcheck')
         const navigation = useNavigation();
 
+        const navigation = useNavigation();
+
         return (
             <ScrollView>
             <Card style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
