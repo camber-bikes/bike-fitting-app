@@ -1,4 +1,4 @@
-import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions } from 'expo-camera';
+import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
 import { useState, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
@@ -12,28 +12,30 @@ interface CameraFrameProps {
 }
 export function CameraFrame({cameraMode}:CameraFrameProps) {
     const [facing, setFacing] = useState<CameraType>('back');
-    const [permission, requestPermission] = useCameraPermissions();
+    const [cameraPermission, requestCameraPermission] = useCameraPermissions();
+    const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
     const [cameraReady, setCameraReady] = useState(false);
     const cameraRef = useRef<CameraView>(null);
     const [isRecording, setIsRecording] = useState(false)
     const [picture, setPicture] = useState<string>("");
-    const [video, setVideo] = useState("")
+    const [video, setVideo] = useState<string>("")
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg"
     })
 
 
-    if (!permission) {
-        // Camera permissions are still loading.
+    if (!cameraPermission || !audioPermission) {
+        // Camera and microphone permissions are still loading.
         return <View />;
     }
 
-    if (!permission.granted) {
+    if (!cameraPermission.granted || !audioPermission.granted) {
         // Camera permissions are not granted yet.
         return (
             <View style={styles.container}>
                 <Text style={styles.message}>We need your permission to show the camera</Text>
-                <Button onPress={requestPermission} title="grant permission" />
+                <Button onPress={requestCameraPermission} title="grant camera permission" />
+                <Button onPress={requestAudioPermission} title="grant microphone permission" />
             </View>
         );
     }
@@ -73,20 +75,40 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
     }
 
     async function handleStartRecording() {
-        console.log("Hello there!");
-        console.log(cameraRef);
+        console.log("Camera Ref:", cameraRef.current);
+        console.log("Is Camera Ready:", cameraReady);
+        console.log("Is Recording:", isRecording);
+
+        if (!cameraReady || !cameraRef.current || isRecording) {
+            console.log("Camera is not ready yet!");
+            return;
+        }
         
-        const response = await cameraRef.current?.recordAsync();
+        console.log("Starting Recording...");
+
+        try {
+            const response = await cameraRef.current?.recordAsync();
+            console.log("Recording response:", response);
+
+            if (response) {
+                setVideo(response!.uri);
+                setIsRecording(prevIsRecording => !prevIsRecording);
+                console.log("Started Recording, file saved to: " + response.uri);
+                console.log(video);
+                
+            } else {
+                console.error("Recording failed to start");
+            }
+        } catch (error) {
+            console.error("Error starting recording:", error);
+        }
+
+        /*const response = await cameraRef.current?.recordAsync();
         console.log(response);
-        if (response === undefined) {
-            console.error("Failed Recording");
-        }
-        else{
-            setVideo(response!.uri)
-            setIsRecording(true);
-            console.log("Started Recording, file gets saved to: " + video);
-            
-        }
+        setVideo(response!.uri)
+        setIsRecording(true);
+        console.log("Started Recording, file gets saved to: " + video);*/
+        
         
     }
 
@@ -99,7 +121,13 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
 
     return (
         <View style={styles.container}>
-            <CameraView ref={cameraRef} mode="video" style={styles.camera} facing={facing} mute={true} onCameraReady={() => handleCameraReady()}>
+            <CameraView 
+                ref={cameraRef} 
+                mode="video" 
+                style={styles.camera} 
+                facing={facing} 
+                mute={true} 
+                onCameraReady={() => handleCameraReady()}>
                 <View style={styles.buttonContainer}>
                     {cameraReady && <TouchableOpacity style={styles.cameraAction}>
                         <CameraAction cameraMode={cameraMode} isRecording={isRecording} handleCameraShutter={() => handleCameraShutter()}/>
@@ -145,4 +173,13 @@ const styles = StyleSheet.create({
     },
 });
 
-/* animateShutter={false} autofocus="on"  mute={true} */
+/* animateShutter={false} autofocus="on"  mute={true} 
+
+if (response === undefined) {
+            console.error("Failed Recording");
+        }
+        else{
+            
+            
+        }
+*/
