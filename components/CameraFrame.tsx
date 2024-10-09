@@ -16,12 +16,12 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
     const [cameraReady, setCameraReady] = useState(false);
     const cameraRef = useRef<CameraView>(null);
-    const [isRecording, setIsRecording] = useState(false)
+    const [isRecording, setIsRecording] = useState(false);
+    const [videoTracking, setVideoTracking] = useState<string>("");
     const [picture, setPicture] = useState<string>("");
-    const [video, setVideo] = useState<string>("")
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg"
-    })
+    });
 
 
     if (!cameraPermission || !audioPermission) {
@@ -49,22 +49,6 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
-    function handleCameraShutter(){
-        console.log("Shutter pressed " + cameraMode)
-        if (cameraMode === "picture"){
-            handleTakePicture()
-        }
-        else if (cameraMode === "video" && isRecording === false) {
-            console.log("Starting Recording...");
-            handleStartRecording();
-        }
-        else if(cameraMode === "video" && isRecording === true){
-            console.log("Trying to stop...");
-            
-            handleStopRecording();
-        }
-    }
-
     async function handleTakePicture() {
         console.log(cameraRef);
         console.log("Function called")
@@ -73,64 +57,31 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
         console.log(response!.base64)
 
     }
-
-    async function handleStartRecording() {
-        console.log("Camera Ref:", cameraRef.current);
-        console.log("Is Camera Ready:", cameraReady);
-        console.log("Is Recording:", isRecording);
-
-        if (!cameraReady || !cameraRef.current || isRecording) {
-            console.log("Camera is not ready yet!");
-            return;
-        }
-        
-        console.log("Starting Recording...");
-
-        try {
-            const response = await cameraRef.current?.recordAsync();
-            console.log("Recording response:", response);
-
-            if (response) {
-                setVideo(response!.uri);
-                setIsRecording(prevIsRecording => !prevIsRecording);
-                console.log("Started Recording, file saved to: " + response.uri);
-                console.log(video);
-                
-            } else {
-                console.error("Recording failed to start");
-            }
-        } catch (error) {
-            console.error("Error starting recording:", error);
-        }
-
-        /*const response = await cameraRef.current?.recordAsync();
-        console.log(response);
-        setVideo(response!.uri)
-        setIsRecording(true);
-        console.log("Started Recording, file gets saved to: " + video);*/
-        
-        
-    }
-
-    async function handleStopRecording() {
-        cameraRef.current?.stopRecording();
-        setIsRecording(false);
-        console.log("Stopped Recording");
-    }
     
+    async function toggleRecord() {
+        if (isRecording) {
+            cameraRef.current?.stopRecording();
+            setIsRecording(false);
+        } else {
+            setIsRecording(true);
+            const response = await cameraRef.current?.recordAsync();
+            let tempVariable = response!.uri;
+            setVideoTracking(tempVariable);
+        }
+    }
 
     return (
         <View style={styles.container}>
             <CameraView 
                 ref={cameraRef} 
-                mode="video" 
+                mode={cameraMode} 
                 style={styles.camera} 
                 facing={facing} 
                 mute={true} 
                 onCameraReady={() => handleCameraReady()}>
                 <View style={styles.buttonContainer}>
                     {cameraReady && <TouchableOpacity style={styles.cameraAction}>
-                        <CameraAction cameraMode={cameraMode} isRecording={isRecording} handleCameraShutter={() => handleCameraShutter()}/>
+                        <CameraAction cameraMode={cameraMode} isRecording={isRecording} handleCameraShutter={cameraMode === "picture" ? handleTakePicture : toggleRecord}/>
                     </TouchableOpacity>}
                 </View>
             </CameraView>
@@ -173,13 +124,3 @@ const styles = StyleSheet.create({
     },
 });
 
-/* animateShutter={false} autofocus="on"  mute={true} 
-
-if (response === undefined) {
-            console.error("Failed Recording");
-        }
-        else{
-            
-            
-        }
-*/
