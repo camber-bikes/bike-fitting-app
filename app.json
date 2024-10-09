@@ -35,8 +35,10 @@
         "recordAudioAndroid": true
       }],
     
-      "expo-router"
+      "expo-router",
+      "expo-video"
       ],
+
     "experiments": {
       "typedRoutes": true
     }
