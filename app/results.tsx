@@ -1,13 +1,6 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, PixelRatio, Button, View, Text, Image, Platform, ScrollView } from 'react-native';
+import { StyleSheet, View, ScrollView } from 'react-native';
 import { useEffect, useRef, useState } from 'react';
-import Video from 'react-native-video';
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import InstructionCard from '../../components/Results/InstructionCard'
+import InstructionCard from '../components/Results/InstructionCard'
 import { useVideoPlayer, VideoView } from 'expo-video';
 
 const videoSource =
@@ -32,7 +25,6 @@ export default function ResultsScreen() {
       }, [player]);
   return (
     <ScrollView>
-    <Text style={styles.title}>Results</Text>
       <div style={styles.videoContainer}>
           <VideoView
                   ref={ref}
