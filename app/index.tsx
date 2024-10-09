@@ -1,5 +1,5 @@
 import { Button, Card, Text} from 'react-native-paper';
-import {StyleSheet} from "react-native";
+import {StyleSheet, ScrollView} from "react-native";
 import React from "react";
 import {Pressable} from "expo-router/build/views/Pressable";
 import { useNavigation } from '@react-navigation/native';
@@ -10,6 +10,7 @@ export default function HomeScreen() {
         const navigation = useNavigation();
 
         return (
+            <ScrollView>
             <Card style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
                     <Text style={styles.title}>Camber Bikes</Text>
                     <Card.Content>
@@ -24,6 +25,7 @@ export default function HomeScreen() {
                             </div>
                     </Card.Content>
             </Card>
+            </ScrollView>
         );
 }
 

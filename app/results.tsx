@@ -7,7 +7,7 @@ import { ExternalLink } from '@/components/ExternalLink';
 import ParallaxScrollView from '@/components/ParallaxScrollView';
 import { ThemedText } from '@/components/ThemedText';
 import { ThemedView } from '@/components/ThemedView';
-import InstructionCard from '../../components/Results/InstructionCard'
+import InstructionCard from '../components/Results/InstructionCard'
 import { useVideoPlayer, VideoView } from 'expo-video';
 
 
