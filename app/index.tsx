@@ -1,10 +1,12 @@
 import { Button, Card, Text} from 'react-native-paper';
 import {StyleSheet} from "react-native";
 import React from "react";
-import {Link} from "expo-router";
 import {Pressable} from "expo-router/build/views/Pressable";
+import { useNavigation } from '@react-navigation/native';
 
 export default function HomeScreen() {
+        const navigation = useNavigation();
+
         return (
             <Card style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
                     <Text style={styles.title}>Camber Bikes</Text>
@@ -12,11 +14,9 @@ export default function HomeScreen() {
                             <div style={styles.contentAlignment}>
                                     <img style={styles.homeImage} src="../assets/images/AngertyBike.jpg" />
                                     <div style={styles.actionContainer}>
-                                            <Link href="/tutorial" asChild>
-                                                    <Pressable>
-                                                            <Button style={styles.recordingButton} children={undefined}></Button>
-                                                    </Pressable>
-                                            </Link>
+                                            <Pressable onPress={() => navigation.navigate('tutorial')}>
+                                                    <Button style={styles.recordingButton} children={undefined}></Button>
+                                            </Pressable>
                                             <p style={styles.actionAdvice}>Start recording</p>
                                     </div>
                             </div>
