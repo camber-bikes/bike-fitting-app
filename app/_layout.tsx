@@ -29,9 +29,10 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={colorScheme === 'dark' ? DarkTheme : DefaultTheme}>
       <Stack>
-        <Stack.Screen name="index" options={{ headerShown: false }} />
+        <Stack.Screen name="index" options={{ headerShown: false, title: "Home"}} />
         <Stack.Screen name="tutorial" options={{title: 'Tutorial'}} />
         <Stack.Screen name="results" options={{title: 'Results'}} />
+        <Stack.Screen name="recordPhoto" options={{title: 'Take a photo of your whole body'}} />
         <Stack.Screen name="+not-found" />
       </Stack>
     </ThemeProvider>

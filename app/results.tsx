@@ -1,27 +1,31 @@
-import Ionicons from '@expo/vector-icons/Ionicons';
-import { StyleSheet, ActivityIndicator, PixelRatio, Button, View, Text, Image, Platform, ScrollView } from 'react-native';
-import { useEffect, useRef, useState } from 'react';
-import Video from 'react-native-video';
-import { Collapsible } from '@/components/Collapsible';
-import { ExternalLink } from '@/components/ExternalLink';
-import ParallaxScrollView from '@/components/ParallaxScrollView';
-import { ThemedText } from '@/components/ThemedText';
-import { ThemedView } from '@/components/ThemedView';
-import InstructionCard from '../components/Results/InstructionCard'
-import { useVideoPlayer, VideoView } from 'expo-video';
+// import Ionicons from '@expo/vector-icons/Ionicons';
+// import { StyleSheet, ActivityIndicator, PixelRatio, Button, View, Text, Image, Platform, ScrollView } from 'react-native';
+// import { useEffect, useRef, useState } from 'react';
+// import Video from 'react-native-video';
+// import { Collapsible } from '@/components/Collapsible';
+// import { ExternalLink } from '@/components/ExternalLink';
+// import { ThemedText } from '@/components/ThemedText';
+// import { ThemedView } from '@/components/ThemedView';
+// import InstructionCard from '../components/Results/InstructionCard'
+// import { useVideoPlayer, VideoView } from 'expo-video';
+
+import InstructionCard from "@/components/Results/InstructionCard";
+import { useVideoPlayer, VideoView } from "expo-video";
+import { useEffect, useRef, useState } from "react";
+import { ActivityIndicator, StyleSheet, ScrollView, Text, View } from "react-native";
 
 
 export default function ResultsScreen() {
 
-    BASE_URL = 'http://localhost:8000';
-    SCAN_UUID = '5430be3a-d14d-427a-b6d2-c0a774744a96';
+    const BASE_URL = 'http://localhost:8000';
+    const SCAN_UUID = '5430be3a-d14d-427a-b6d2-c0a774744a96';
 
         const [videoSource] = useState(BASE_URL + '/api/scans/' + SCAN_UUID + '/videos/pedalling.mp4')
         const ref = useRef(null);
         const [isPlaying, setIsPlaying] = useState(true);
         const [loading, setLoading] = useState(true);
-        const [result_x, setResultX] = useState(null);
-        const [result_y, setResultY] = useState(null);
+        const [result_x, setResultX] = useState(-100);
+        const [result_y, setResultY] = useState(-100);
         const player = useVideoPlayer(videoSource, player => {
             player.loop = true;
             player.play();
@@ -39,7 +43,7 @@ export default function ResultsScreen() {
 
 
   useEffect(() => {
-      let interval;
+      let interval: any;
       const checkEndpoint = async () => {
         try {
           const uri = BASE_URL + '/api/scans/' + SCAN_UUID + '/result';
@@ -70,7 +74,7 @@ export default function ResultsScreen() {
     )}
         <View>
         <Text style={styles.title}>Results</Text>
-          <div style={styles.videoContainer}>
+          <View style={styles.videoContainer}>
               <VideoView
                       ref={ref}
                       style={styles.video}
@@ -78,23 +82,19 @@ export default function ResultsScreen() {
                       resizeMode="contain"
                       useNativeControls={false}
                     />
-              </div>
+              </View>
+          </View>  
           <View style={styles.instructionsContainer}>
             <InstructionCard direction={result_x > 0 ? "up" : "down"} amount={Math.round(result_x * 10) / 10}></InstructionCard>
             <InstructionCard direction={result_y > 0 ? "left" : "right"} amount={Math.round(result_y * 10) / 10}></InstructionCard>
-          </View>
           </View>
     </ScrollView>
   );
 }
 
 const styles = StyleSheet.create({
-  container: {
-    padding: 20,
-    alignItems: 'center', // Centers content horizontally
-  },
   title: {
-    fontSize: "300%", // Responsive title size
+    fontSize: "80%", // Responsive title size
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom:   "10%",

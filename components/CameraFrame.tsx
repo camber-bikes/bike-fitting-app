@@ -8,9 +8,10 @@ import { ImageType } from 'expo-camera/build/legacy/Camera.types';
 
 interface CameraFrameProps {
     /*handleTakePicture: () => void;*/
+    setMedia: (mediaUri: string) => void; 
     cameraMode: CameraMode;
 }
-export function CameraFrame({cameraMode}:CameraFrameProps) {
+export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
@@ -53,7 +54,7 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
         console.log(cameraRef);
         console.log("Function called")
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        setPicture(response!.uri);
+        setMedia(response!.uri);
         console.log(response!.base64)
 
     }
@@ -66,7 +67,7 @@ export function CameraFrame({cameraMode}:CameraFrameProps) {
             setIsRecording(true);
             const response = await cameraRef.current?.recordAsync();
             let tempVariable = response!.uri;
-            setVideoTracking(tempVariable);
+            setMedia(tempVariable);
         }
     }
 

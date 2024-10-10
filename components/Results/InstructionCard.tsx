@@ -1,6 +1,7 @@
-import React, { useState } from 'react';
-import { StyleSheet, Text, View, Image, Animated } from 'react-native';
-import { VscArrowDown, VscArrowLeft, VscArrowRight, VscArrowUp } from 'react-icons/vsc';
+
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import { useState } from "react";
+import { Animated, View, Image, Text, StyleSheet} from "react-native";
 
 export default InstructionCard = ({ direction, amount }) => {
   const [isToggled, setIsToggled] = useState(false);
@@ -20,19 +21,20 @@ export default InstructionCard = ({ direction, amount }) => {
   const correctArrowIcon = () => {
     switch (direction) {
         case "up":
-            return (<VscArrowUp style={styles.arrowIcon} />);
+        return (<FontAwesome5 name='arrow-up' style={styles.arrowIcon} />);
             break;
         case "down":
-            return (<VscArrowDown style={styles.arrowIcon} />);
+        return (<FontAwesome5 name='arrow-down' style={styles.arrowIcon} />);
             break;
         case "left":
-            return (<VscArrowLeft style={styles.arrowIcon} />);
+        return (<FontAwesome5 name='arrow-left' style={styles.arrowIcon} />);
             break;
         case "right":
-            return (<VscArrowRight style={styles.arrowIcon} />)
+        return (<FontAwesome5 name='arrow-right' style={styles.arrowIcon} />)
             break;
         default: break;
       }
+      // return (<Text>TestIcon</Text>);
   };
 
   return (
@@ -68,7 +70,7 @@ export default InstructionCard = ({ direction, amount }) => {
 
 const styles = StyleSheet.create({
   resultText: {
-    fontSize: "175%",
+    fontSize: "20%",
     padding: "2%",
     marginHorizontal: "3%",
     marginVertical: "3%"
@@ -76,40 +78,39 @@ const styles = StyleSheet.create({
   card: {
     backgroundColor: '#fff',
     marginHorizontal: "3%",
-    paddingHorizontal: "2%",
+    paddingHorizontal: "4%",
     marginBottom: "3%",
     borderRadius: 5,
     boxShadow: '0px 4px 8px rgba(0, 0, 0, 0.1)',
   },
   cardTitle: {
+    width: "80%",
     display: 'flex',
     flexDirection: 'row',
-    justifyContent: 'space-between',
+    justifyContent: 'center',
     alignItems: 'center',
     cursor: 'pointer',
   },
   cardContent: {
-    overflow: 'hidden',
+    // overflow: 'text-wrap',
     transition: 'height 0.3s ease',
   },
   saddleIconContainer: {
-    width: '8vw',
+    width: '30%',
     aspectRatio: 1,
-    position: 'relative',
-    alignSelf: 'center',
-    marginLeft: "10%",
+    // position: 'relative',
   },
   saddleIcon: {
-    position: 'absolute',
+    // position: 'absolute',
     top: 0,
     left: 0,
     width: '100%',
     height: '100%',
-    objectFit: 'contain',
+    objectFit: 'fit',
   },
   arrowIcon: {
-    height: '8vw',
-    width: '8vw',
+    height: '10%',
+    width: '10%',
     alignSelf: 'center',
   },
   iconHolder: {

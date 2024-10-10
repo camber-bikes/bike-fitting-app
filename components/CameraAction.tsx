@@ -26,7 +26,7 @@ export default function CameraAction({ cameraMode, isRecording, handleCameraShut
                     size={90}
                     type= "palette"
                     colors={
-                            cameraMode === "picture" ? "white"
+                            cameraMode === "picture" ? ["white","white"]
                             : ["red", "white"]
                     }
                     fallback={

@@ -40,7 +40,7 @@ export default function TutorialScreen() {
     }, [player]);
     return (
         <ScrollView>
-            <div style={styles.videoContainer}>
+            <View style={styles.videoContainer}>
                 <VideoView
                     ref={ref}
                     style={styles.video}
@@ -48,7 +48,7 @@ export default function TutorialScreen() {
                     resizeMode="contain"
                     useNativeControls={false}
                 />
-            </div>
+            </View>
             <View style={styles.instructionsContainer}>
                 <TextInput
                     style={styles.input}
@@ -96,13 +96,13 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Center the input and button
     },
     input: {
-        height: "100%",
+        height: "3vh",
         width: '94%',
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 20,
-        padding: "2%",
+        padding: "3%",
     },
     continueButton: {
         height: "100px",
