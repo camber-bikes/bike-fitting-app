@@ -1,5 +1,6 @@
-import {StyleSheet, Button, View, TextInput, Text, ScrollView} from 'react-native';
+import {StyleSheet, Button, View, TextInput, Text, ScrollView   } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
+import { Link } from 'expo-router';
 import {useVideoPlayer, VideoView} from 'expo-video';
 import {Pressable} from "expo-router/build/views/Pressable";
 import {useNavigation} from "@react-navigation/native";
@@ -40,7 +41,7 @@ export default function TutorialScreen() {
     }, [player]);
     return (
         <ScrollView>
-            <div style={styles.videoContainer}>
+            <View style={styles.videoContainer}>
                 <VideoView
                     ref={ref}
                     style={styles.video}
@@ -48,7 +49,7 @@ export default function TutorialScreen() {
                     resizeMode="contain"
                     useNativeControls={false}
                 />
-            </div>
+            </View>
             <View style={styles.instructionsContainer}>
                 <TextInput
                     style={styles.input}
@@ -57,11 +58,10 @@ export default function TutorialScreen() {
                     value={height}
                     onChangeText={handleHeightChange} // Handle text input changes
                 />
-                    <Button
-                        onPress={() => navigation.navigate("results")}
-                        children={undefined}
-                        title={"Next"}
-                    />
+                <Link href={"/recordVideo"} asChild><Button
+                    title={"Next"}
+                /></Link>
+                    
             </View>
         </ScrollView>
     );
@@ -96,13 +96,13 @@ const styles = StyleSheet.create({
         alignItems: 'center', // Center the input and button
     },
     input: {
-        height: "100%",
+        height: "3vh",
         width: '94%',
         borderColor: 'gray',
         borderWidth: 1,
         borderRadius: 5,
         marginBottom: 20,
-        padding: "2%",
+        padding: "3%",
     },
     continueButton: {
         height: "100px",
