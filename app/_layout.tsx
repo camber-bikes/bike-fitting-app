@@ -33,7 +33,7 @@ export default function RootLayout() {
         <Stack.Screen name="tutorial" options={{title: 'Tutorial'}} />
         <Stack.Screen name="results" options={{title: 'Results'}} />
         <Stack.Screen name="recordPhoto" options={{title: 'Take a photo of your whole body'}} />
-        <Stack.Screen name="+not-found" />
+        <Stack.Screen name="recordVideo" options={{ title: 'Take a photo of your on bike pedalling '}} />
       </Stack>
     </ThemeProvider>
   );

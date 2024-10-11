@@ -1,7 +1,7 @@
 import { CameraFrame } from "@/components/CameraFrame";
 import { useState } from "react";
 
-export default function recordPhotoScreen() {
+export default function recordVideocreen() {
 
     const[videoUri, setVideoUri] = useState("")
 

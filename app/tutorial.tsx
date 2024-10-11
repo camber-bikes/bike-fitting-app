@@ -1,5 +1,6 @@
-import {StyleSheet, Button, View, TextInput, Text, ScrollView} from 'react-native';
+import {StyleSheet, Button, View, TextInput, Text, ScrollView   } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
+import { Link } from 'expo-router';
 import {useVideoPlayer, VideoView} from 'expo-video';
 import {Pressable} from "expo-router/build/views/Pressable";
 import {useNavigation} from "@react-navigation/native";
@@ -57,11 +58,10 @@ export default function TutorialScreen() {
                     value={height}
                     onChangeText={handleHeightChange} // Handle text input changes
                 />
-                    <Button
-                        onPress={() => navigation.navigate("results")}
-                        children={undefined}
-                        title={"Next"}
-                    />
+                <Link href={"/recordVideo"} asChild><Button
+                    title={"Next"}
+                /></Link>
+                    
             </View>
         </ScrollView>
     );
