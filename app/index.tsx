@@ -1,4 +1,4 @@
-import { Button, Card, Text} from 'react-native-paper';
+import { Card, Text} from 'react-native-paper';
 import { StyleSheet, View, ScrollView} from "react-native";
 import React from "react";
 import { Image } from 'expo-image';
@@ -9,26 +9,25 @@ import { SymbolView } from 'expo-symbols';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export default function HomeScreen() {
-        const  BASE_URL = 'http://localhost:8000';
-          fetch(BASE_URL + '/api/healthcheck')
+        const BASE_URL = 'https://backend-489080704622.us-west2.run.app';
+        fetch(BASE_URL + '/api/healthcheck')
         const navigation = useNavigation();
 
-
         return (
-        
+
         <SafeAreaView>
             <ScrollView>
                 <Card style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
                         <Text style={styles.title}>Camber Bikes</Text>
-                        <Card.Content>                        
+                        <Card.Content>
                                 <View style={styles.container}>
-                                        <Image 
-                                                style={styles.homeImage} 
-                                                source={require("../assets/images/AngertyBike.jpg")} 
+                                        <Image
+                                                style={styles.homeImage}
+                                                source={require("../assets/images/AngertyBike.jpg")}
                                                 contentFit='cover'
                                                 />
                                 </View>
-                                <View style={styles.contentAlignment}>    
+                                <View style={styles.contentAlignment}>
                                     <View style={styles.buttonContainer}>
                                         <Pressable onPress={() => navigation.navigate('personinformation', {})} style={styles.cameraAction}>
                                                 <SymbolView
@@ -36,7 +35,7 @@ export default function HomeScreen() {
                                                         size={90}
                                                         type="palette"
                                                         colors={["red", "#a7a7a7"]}
-                                                        fallback={ 
+                                                        fallback={
                                                                 <FontAwesome5
                                                                         name = "circle"
                                                                         size={90}
@@ -78,7 +77,7 @@ const styles = StyleSheet.create({
                 width: 320,
                 height: 440,
                 borderRadius: 18,
-                
+
         },
         actionContainer: {
                 display: "flex",

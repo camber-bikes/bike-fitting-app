@@ -1,4 +1,4 @@
-import {Button, Pressable, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, Pressable, StyleSheet, TextInput, View} from "react-native";
 import React, {useState} from "react";
 import {useNavigation} from '@react-navigation/native';
 
@@ -7,6 +7,33 @@ export default function PersoninformationScreen() {
     const [input1, setInput1] = useState('');
     const [input2, setInput2] = useState('');
     const isButtonDisabled = !input1 || !input2;
+
+    const handleSubmit = async () => {
+        try {
+            const response = await fetch('https://backend-489080704622.us-west2.run.app/api/persons/informationt', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    name: input1,
+                    height_cm: input2,
+                }),
+            });
+
+            if (!response.ok) {
+                throw new Error('Network response was not ok');
+            }
+
+            const data = await response.json();
+            Alert.alert('Success', 'Form submitted successfully!');
+            console.log(data);
+            navigation.navigate("tutorial")
+        } catch (error) {
+            Alert.alert('Error', 'Failed to submit form');
+            console.error('Error:', error);
+        }
+    };
 
     return (
         <View style={styles.formContainer}>
@@ -25,7 +52,7 @@ export default function PersoninformationScreen() {
                 keyboardType="numeric"
             />
             <Button
-                onPress={() => navigation.navigate("tutorial")}
+                onPress={handleSubmit}
                 children={undefined}
                 title={"Submit"}
                 color={"#de78b2"}
