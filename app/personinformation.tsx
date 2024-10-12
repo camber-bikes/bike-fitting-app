@@ -1,16 +1,19 @@
-import {Alert, Button, Pressable, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, StyleSheet, TextInput, View} from "react-native";
 import React, {useState} from "react";
 import {useNavigation} from '@react-navigation/native';
+import { useContext } from 'react';
+import {PersonContext} from "@/app/index";
 
 export default function PersoninformationScreen() {
     const navigation = useNavigation();
     const [input1, setInput1] = useState('');
     const [input2, setInput2] = useState('');
     const isButtonDisabled = !input1 || !input2;
+    const { person, setPerson } = useContext(PersonContext);
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('https://backend-489080704622.us-west2.run.app/api/persons/informationt', {
+            const response = await fetch('https://backend-489080704622.us-west2.run.app/api/persons/information', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -27,7 +30,7 @@ export default function PersoninformationScreen() {
 
             const data = await response.json();
             Alert.alert('Success', 'Form submitted successfully!');
-            console.log(data);
+            person.uuid = data.uuid
             navigation.navigate("tutorial")
         } catch (error) {
             Alert.alert('Error', 'Failed to submit form');
