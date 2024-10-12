@@ -30,7 +30,7 @@ export default function HomeScreen() {
                                 </View>
                                 <View style={styles.contentAlignment}>    
                                     <View style={styles.buttonContainer}>
-                                        <Pressable onPress={() => navigation.navigate('tutorial', {})} style={styles.cameraAction}>    
+                                        <Pressable onPress={() => navigation.navigate('personinformation', {})} style={styles.cameraAction}>
                                                 <SymbolView
                                                         name= "circle.inset.filled"
                                                         size={90}

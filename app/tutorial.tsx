@@ -2,7 +2,6 @@ import {StyleSheet, Button, View, TextInput, Text, ScrollView   } from 'react-na
 import React, {useEffect, useRef, useState} from 'react';
 import { Link } from 'expo-router';
 import {useVideoPlayer, VideoView} from 'expo-video';
-import {Pressable} from "expo-router/build/views/Pressable";
 import {useNavigation} from "@react-navigation/native";
 
 const videoSource =
@@ -50,18 +49,13 @@ export default function TutorialScreen() {
                     useNativeControls={false}
                 />
             </View>
-            <View style={styles.instructionsContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter height in cm"
-                    keyboardType="numeric"
-                    value={height}
-                    onChangeText={handleHeightChange} // Handle text input changes
+            <View>
+                <Button
+                    onPress={() => navigation.navigate("results")}
+                    children={undefined}
+                    title={"Let's go !"}
+                    color={"#de78b2"}
                 />
-                <Link href={"/recordVideo"} asChild><Button
-                    title={"Next"}
-                /></Link>
-                    
             </View>
         </ScrollView>
     );
