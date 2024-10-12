@@ -9,6 +9,7 @@ import { SymbolView } from 'expo-symbols';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export const PersonContext = React.createContext({person: {name: "Rudi", uuid: "none"}});
+export const ScanContext = React.createContext({scan_uuid: "none"});
 
 export default function HomeScreen() {
         const BASE_URL = 'https://backend-489080704622.us-west2.run.app';

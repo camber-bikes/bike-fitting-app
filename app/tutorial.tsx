@@ -1,6 +1,5 @@
 import {StyleSheet, Button, View, TextInput, Text, ScrollView   } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import { Link } from 'expo-router';
 import {useVideoPlayer, VideoView} from 'expo-video';
 import {useNavigation} from "@react-navigation/native";
 

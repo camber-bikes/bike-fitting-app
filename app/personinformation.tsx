@@ -3,17 +3,21 @@ import React, {useState} from "react";
 import {useNavigation} from '@react-navigation/native';
 import { useContext } from 'react';
 import {PersonContext} from "@/app/index";
+import {ScanContext} from "@/app/index";
 
 export default function PersoninformationScreen() {
     const navigation = useNavigation();
     const [input1, setInput1] = useState('');
     const [input2, setInput2] = useState('');
     const isButtonDisabled = !input1 || !input2;
-    const { person, setPerson } = useContext(PersonContext);
+    const { person } = useContext(PersonContext);
+    let { scan_uuid } = useContext(ScanContext);
+
+    const BASE_URL = 'https://backend-489080704622.us-west2.run.app/api/'
 
     const handleSubmit = async () => {
         try {
-            const response = await fetch('https://backend-489080704622.us-west2.run.app/api/persons/information', {
+            const person_response = await fetch(BASE_URL + 'persons/information', {
                 method: 'PUT',
                 headers: {
                     'Content-Type': 'application/json',
@@ -23,14 +27,23 @@ export default function PersoninformationScreen() {
                     height_cm: input2,
                 }),
             });
+            const person_data = await person_response.json();
+            Alert.alert('Success', 'Personform submitted successfully!');
+            person.uuid = person_data.uuid
 
-            if (!response.ok) {
-                throw new Error('Network response was not ok');
-            }
 
-            const data = await response.json();
-            Alert.alert('Success', 'Form submitted successfully!');
-            person.uuid = data.uuid
+            const scan_response = await fetch( BASE_URL + 'scans/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    person_uuid: person.uuid,
+                }),
+            });
+            const scan_data = await scan_response.json();
+            Alert.alert('Success', 'Scan_id fetched successfully!');
+            scan_uuid = scan_data.scan_uuid
             navigation.navigate("tutorial")
         } catch (error) {
             Alert.alert('Error', 'Failed to submit form');

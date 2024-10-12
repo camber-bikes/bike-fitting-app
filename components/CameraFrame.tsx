@@ -2,8 +2,6 @@ import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPicture
 import { useState, useRef } from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
-import { ThemedText } from './ThemedText';
-import { ImageType } from 'expo-camera/build/legacy/Camera.types';
 
 
 interface CameraFrameProps {
