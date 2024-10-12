@@ -1,7 +1,9 @@
 import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
-import { useState, useRef } from 'react';
+import {useState, useRef, useContext} from 'react';
 import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
+import {useNavigation} from "@react-navigation/native";
+import {ScanContext} from "@/app/index";
 
 
 interface CameraFrameProps {
@@ -10,6 +12,7 @@ interface CameraFrameProps {
     cameraMode: CameraMode;
 }
 export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
+    const navigation = useNavigation();
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
@@ -21,6 +24,7 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg"
     });
+    const { scan_uuid } = useContext(ScanContext);
 
 
     if (!cameraPermission || !audioPermission) {
@@ -48,13 +52,37 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
-    async function handleTakePicture() {
-        console.log(cameraRef);
-        console.log("Function called")
-        const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        setMedia(response!.uri);
-        console.log(response!.base64)
+    const base64ToBlob = (base64, contentType = '', sliceSize = 512) => {
+        const byteCharacters = atob(base64);  // Decode base64
+        const byteArrays = [];
 
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+
+            const byteNumbers = new Array(slice.length);
+            for (let i = 0; i < slice.length; i++) {
+                byteNumbers[i] = slice.charCodeAt(i);
+            }
+
+            const byteArray = new Uint8Array(byteNumbers);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });  // Create a Blob from byte arrays
+        return blob;
+    };
+
+    async function handleTakePicture() {
+        const response = await cameraRef.current?.takePictureAsync(pictureSettings);
+        const binary = base64ToBlob(response!.uri.split(',')[1], 'image/jpg')
+        setMedia(response!.uri);
+        const formData = new FormData();
+        formData.append('file', binary, 'image.jpg');
+        const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
+            method: 'POST',
+            body: formData, // Send form data with the file
+        });
+        navigation.navigate('recordVideo')
     }
     
     async function toggleRecord() {

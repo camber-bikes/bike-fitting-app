@@ -11,7 +11,7 @@ export default function PersoninformationScreen() {
     const [input2, setInput2] = useState('');
     const isButtonDisabled = !input1 || !input2;
     const { person } = useContext(PersonContext);
-    let { scan_uuid } = useContext(ScanContext);
+    const { scan_uuid, updateScanUUID } = useContext(ScanContext);
 
     const BASE_URL = 'https://backend-489080704622.us-west2.run.app/api/'
 
@@ -31,7 +31,6 @@ export default function PersoninformationScreen() {
             Alert.alert('Success', 'Personform submitted successfully!');
             person.uuid = person_data.uuid
 
-
             const scan_response = await fetch( BASE_URL + 'scans/', {
                 method: 'POST',
                 headers: {
@@ -43,8 +42,8 @@ export default function PersoninformationScreen() {
             });
             const scan_data = await scan_response.json();
             Alert.alert('Success', 'Scan_id fetched successfully!');
-            scan_uuid = scan_data.scan_uuid
-            navigation.navigate("tutorial")
+            updateScanUUID(scan_data.scan_uuid)
+            navigation.navigate("recordPhoto")
         } catch (error) {
             Alert.alert('Error', 'Failed to submit form');
             console.error('Error:', error);
