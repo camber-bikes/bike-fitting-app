@@ -50,64 +50,7 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
         console.log('Camera is ready');
     };
 
-    function toggleCameraFacing() {
-        setFacing(current => (current === 'back' ? 'front' : 'back'));
-    }
 
-    /*const base64ToBlob = (base64, contentType = '', sliceSize = 512) => {
-        const base64DecodeChars = (input) => {
-            const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-            const base64Lookup = new Uint8Array(256);
-
-            for (let i = 0; i < base64Chars.length; i++) {
-                base64Lookup[base64Chars.charCodeAt(i)] = i;
-            }
-
-            const output = [];
-            let buffer = 0;
-            let bits = 0;
-
-            console.log(input)
-            for (let i = 0; i < input.length; i++) {
-                const c = input.charCodeAt(i);
-                if (c === 61) {  // '=' character (padding)
-                    break;
-                }
-
-                buffer = (buffer << 6) | base64Lookup[c];
-                bits += 6;
-
-                if (bits >= 8) {
-                    bits -= 8;
-                    output.push((buffer >> bits) & 0xff);
-                }
-            }
-
-            return output;
-        };
-
-        const byteCharacters = base64DecodeChars(base64);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-            const byteArray = new Uint8Array(slice);
-            byteArrays.push(byteArray);
-        }
-        console.log("Hello");
-        console.log(byteArrays)
-        try {
-            const blob = new Blob(byteArrays, { type: contentType });  // Create a Blob from byte arrays
-
-            console.log(blob);
-            return blob;
-        } catch (error) {
-            console.error("new Blob function failed")
-        }
-        
-
-        
-    };*/
 
     const base64ToBlob = async (base64: string, filename: string) => {
         const fileUri = `${FileSystem.cacheDirectory}${filename}`;
