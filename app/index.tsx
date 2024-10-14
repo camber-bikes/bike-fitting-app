@@ -17,11 +17,10 @@ export default function HomeScreen() {
     const navigation = useNavigation();
 
     return (
-        <SafeAreaView style={{ flex: 1 }}>
             <View style={styles.container}>
                 <Image
                     style={styles.homeImage}
-                    source={require("../assets/images/AngertyBike.jpg")}
+                    source={require("../assets/images/sascha.jpeg")}
                     contentFit='cover'
                 />
                 <View style={styles.overlayContainer}>
@@ -33,7 +32,6 @@ export default function HomeScreen() {
                     </Card>
                 </View>
             </View>
-        </SafeAreaView>
     );
 }
 

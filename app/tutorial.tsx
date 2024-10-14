@@ -40,13 +40,12 @@ const styles = StyleSheet.create({
   },
   image: {
     width: 100,
-    height: 100,
-    marginRight: 20,
+//     height: "100%",
+//     marginRight: 20,
     resizeMode: 'contain', // Ensures the image fits
 //     aspectRatio: 3 / 1, // Makes the video container responsive with a 16:9 ratio
   },
   text: {
-//     color: '#fff', // Set text color to white
     fontSize: 18,
   },
 });

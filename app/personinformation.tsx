@@ -1,4 +1,4 @@
-import { Alert, Text, Button, StyleSheet, KeyboardAvoidingView, TextInput, View, ProgressBarAndroid } from "react-native";
+import { Alert, Text, Button, Keyboard, Platform, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, TextInput, View, ProgressBarAndroid } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
@@ -51,14 +51,13 @@ export default function PersonInformationScreen() {
     };
 
     return (
-        <KeyboardAvoidingView>
-              behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
-              style={styles.container}>
-              <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-            {/* Top section: Question */}
-            <Text style={styles.questionText}>Wie heisst du?</Text>
-
+        <KeyboardAvoidingView
+             behavior={Platform.OS === 'ios' ? 'padding' : 'height'}
+             style={styles.container}>
+             <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
             {/* Input field for Name */}
+            <View>
+            <Text style={styles.questionText}>Wie heisst du?</Text>
             <TextInput
                 style={styles.input}
                 placeholder="Namen"
@@ -88,6 +87,7 @@ export default function PersonInformationScreen() {
                 color="#de78b2"
                 disabled={isButtonDisabled}
             />
+            </View>
             </TouchableWithoutFeedback>
         </KeyboardAvoidingView>
     );
