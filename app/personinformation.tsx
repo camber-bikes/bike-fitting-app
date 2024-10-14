@@ -1,4 +1,4 @@
-import {Alert, Button, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Button, StyleSheet, TextInput, View, Text} from "react-native";
 import React, {useState} from "react";
 import {useNavigation} from '@react-navigation/native';
 import { useContext } from 'react';
@@ -52,14 +52,14 @@ export default function PersoninformationScreen() {
 
     return (
         <View style={styles.formContainer}>
-            <p>Enter your username:</p>
+            <Text>Enter your username:</Text>
             <TextInput
                 style={styles.input}
                 value={input1}
                 onChangeText={setInput1}
                 keyboardType="text"
             />
-            <p>Enter your height in cm</p>
+            <Text>Enter your height in cm</Text>
             <TextInput
                 style={styles.bottomInput}
                 value={input2}

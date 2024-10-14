@@ -22,7 +22,8 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [videoTracking, setVideoTracking] = useState<string>("");
     const [picture, setPicture] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
-        imageType: "jpg"
+        imageType: "jpg",
+        base64: true
     });
     const { scan_uuid } = useContext(ScanContext);
 
@@ -74,7 +75,7 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
 
     async function handleTakePicture() {
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        const binary = base64ToBlob(response!.uri.split(',')[1], 'image/jpg')
+        const binary = base64ToBlob(response!.base64.split(',')[1], 'image/jpg')
         setMedia(response!.uri);
         const formData = new FormData();
         formData.append('file', binary, 'image.jpg');
