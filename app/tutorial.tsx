@@ -1,8 +1,6 @@
 import {StyleSheet, Button, View, TextInput, Text, ScrollView   } from 'react-native';
 import React, {useEffect, useRef, useState} from 'react';
-import { Link } from 'expo-router';
 import {useVideoPlayer, VideoView} from 'expo-video';
-import {Pressable} from "expo-router/build/views/Pressable";
 import {useNavigation} from "@react-navigation/native";
 
 const videoSource =
@@ -41,27 +39,13 @@ export default function TutorialScreen() {
     }, [player]);
     return (
         <ScrollView>
-            <View style={styles.videoContainer}>
-                <VideoView
-                    ref={ref}
-                    style={styles.video}
-                    player={player}
-                    resizeMode="contain"
-                    useNativeControls={false}
+            <View>
+                <Button
+                    onPress={() => navigation.navigate("recordPhoto")}
+                    children={undefined}
+                    title={"Let's go"}
+                    color={"#de78b2"}
                 />
-            </View>
-            <View style={styles.instructionsContainer}>
-                <TextInput
-                    style={styles.input}
-                    placeholder="Enter height in cm"
-                    keyboardType="numeric"
-                    value={height}
-                    onChangeText={handleHeightChange} // Handle text input changes
-                />
-                <Link href={"/recordVideo"} asChild><Button
-                    title={"Next"}
-                /></Link>
-                    
             </View>
         </ScrollView>
     );

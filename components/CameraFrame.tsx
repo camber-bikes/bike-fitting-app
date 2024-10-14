@@ -1,10 +1,9 @@
 import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
-import { useState, useRef } from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import {useState, useRef, useContext} from 'react';
+import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
-import { ThemedText } from './ThemedText';
-import { ImageType } from 'expo-camera/build/legacy/Camera.types';
-
+import {useNavigation} from "@react-navigation/native";
+import {ScanContext} from "@/app/index";
 
 interface CameraFrameProps {
     /*handleTakePicture: () => void;*/
@@ -12,6 +11,7 @@ interface CameraFrameProps {
     cameraMode: CameraMode;
 }
 export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
+    const navigation = useNavigation();
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
@@ -21,8 +21,10 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [videoTracking, setVideoTracking] = useState<string>("");
     const [picture, setPicture] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
-        imageType: "jpg"
+        imageType: "jpg",
+        base64: true
     });
+    const { scan_uuid } = useContext(ScanContext);
 
 
     if (!cameraPermission || !audioPermission) {
@@ -50,13 +52,64 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
         setFacing(current => (current === 'back' ? 'front' : 'back'));
     }
 
-    async function handleTakePicture() {
-        console.log(cameraRef);
-        console.log("Function called")
-        const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        setMedia(response!.uri);
-        console.log(response!.base64)
+    const base64ToBlob = (base64, contentType = '', sliceSize = 512) => {
+        const base64DecodeChars = (input) => {
+            const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+            const base64Lookup = new Uint8Array(256);
 
+            for (let i = 0; i < base64Chars.length; i++) {
+                base64Lookup[base64Chars.charCodeAt(i)] = i;
+            }
+
+            const output = [];
+            let buffer = 0;
+            let bits = 0;
+
+            console.log(input)
+            for (let i = 0; i < input.length; i++) {
+                const c = input.charCodeAt(i);
+                if (c === 61) {  // '=' character (padding)
+                    break;
+                }
+
+                buffer = (buffer << 6) | base64Lookup[c];
+                bits += 6;
+
+                if (bits >= 8) {
+                    bits -= 8;
+                    output.push((buffer >> bits) & 0xff);
+                }
+            }
+
+            return output;
+        };
+
+        const byteCharacters = base64DecodeChars(base64);
+        const byteArrays = [];
+
+        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
+            const slice = byteCharacters.slice(offset, offset + sliceSize);
+            const byteArray = new Uint8Array(slice);
+            byteArrays.push(byteArray);
+        }
+
+        const blob = new Blob(byteArrays, { type: contentType });  // Create a Blob from byte arrays
+        return blob;
+    };
+
+
+    async function handleTakePicture() {
+        const response = await cameraRef.current?.takePictureAsync(pictureSettings);
+        Alert.alert('success', response!.base64);
+        const binary = base64ToBlob(response!.base64.split(',')[1], 'image/jpg')
+        setMedia(response!.base64);
+        const formData = new FormData();
+        formData.append('file', binary, 'image.jpg');
+        const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
+            method: 'POST',
+            body: formData, // Send form data with the file
+        });
+        navigation.navigate('recordVideo')
     }
     
     async function toggleRecord() {
