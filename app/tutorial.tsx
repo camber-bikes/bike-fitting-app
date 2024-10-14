@@ -39,20 +39,11 @@ export default function TutorialScreen() {
     }, [player]);
     return (
         <ScrollView>
-            <View style={styles.videoContainer}>
-                <VideoView
-                    ref={ref}
-                    style={styles.video}
-                    player={player}
-                    resizeMode="contain"
-                    useNativeControls={false}
-                />
-            </View>
             <View>
                 <Button
-                    onPress={() => navigation.navigate("results")}
+                    onPress={() => navigation.navigate("recordPhoto")}
                     children={undefined}
-                    title={"Let's go !"}
+                    title={"Let's go"}
                     color={"#de78b2"}
                 />
             </View>

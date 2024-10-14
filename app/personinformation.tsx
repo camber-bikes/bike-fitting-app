@@ -1,4 +1,4 @@
-import {Alert, Button, StyleSheet, TextInput, View} from "react-native";
+import {Alert, Text, Button, StyleSheet, TextInput, View} from "react-native";
 import React, {useState} from "react";
 import {useNavigation} from '@react-navigation/native';
 import { useContext } from 'react';
@@ -43,7 +43,7 @@ export default function PersoninformationScreen() {
             const scan_data = await scan_response.json();
             Alert.alert('Success', 'Scan_id fetched successfully!');
             updateScanUUID(scan_data.scan_uuid)
-            navigation.navigate("recordPhoto")
+            navigation.navigate("tutorial")
         } catch (error) {
             Alert.alert('Error', 'Failed to submit form');
             console.error('Error:', error);
@@ -52,14 +52,14 @@ export default function PersoninformationScreen() {
 
     return (
         <View style={styles.formContainer}>
-            <p>Enter your username:</p>
+            <Text>Enter your username:</Text>
             <TextInput
                 style={styles.input}
                 value={input1}
                 onChangeText={setInput1}
                 keyboardType="text"
             />
-            <p>Enter your height in cm</p>
+            <Text>Enter your height in cm</Text>
             <TextInput
                 style={styles.bottomInput}
                 value={input2}
