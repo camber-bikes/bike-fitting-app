@@ -43,7 +43,7 @@ export default function PersoninformationScreen() {
             const scan_data = await scan_response.json();
             Alert.alert('Success', 'Scan_id fetched successfully!');
             updateScanUUID(scan_data.scan_uuid)
-            navigation.navigate("recordPhoto")
+            navigation.navigate("tutorial")
         } catch (error) {
             Alert.alert('Error', 'Failed to submit form');
             console.error('Error:', error);

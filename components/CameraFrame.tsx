@@ -1,10 +1,9 @@
 import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
 import {useState, useRef, useContext} from 'react';
-import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
 import {useNavigation} from "@react-navigation/native";
 import {ScanContext} from "@/app/index";
-
 
 interface CameraFrameProps {
     /*handleTakePicture: () => void;*/
@@ -54,18 +53,43 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     }
 
     const base64ToBlob = (base64, contentType = '', sliceSize = 512) => {
-        const byteCharacters = atob(base64);  // Decode base64
+        const base64DecodeChars = (input) => {
+            const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
+            const base64Lookup = new Uint8Array(256);
+
+            for (let i = 0; i < base64Chars.length; i++) {
+                base64Lookup[base64Chars.charCodeAt(i)] = i;
+            }
+
+            const output = [];
+            let buffer = 0;
+            let bits = 0;
+
+            console.log(input)
+            for (let i = 0; i < input.length; i++) {
+                const c = input.charCodeAt(i);
+                if (c === 61) {  // '=' character (padding)
+                    break;
+                }
+
+                buffer = (buffer << 6) | base64Lookup[c];
+                bits += 6;
+
+                if (bits >= 8) {
+                    bits -= 8;
+                    output.push((buffer >> bits) & 0xff);
+                }
+            }
+
+            return output;
+        };
+
+        const byteCharacters = base64DecodeChars(base64);
         const byteArrays = [];
 
         for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
             const slice = byteCharacters.slice(offset, offset + sliceSize);
-
-            const byteNumbers = new Array(slice.length);
-            for (let i = 0; i < slice.length; i++) {
-                byteNumbers[i] = slice.charCodeAt(i);
-            }
-
-            const byteArray = new Uint8Array(byteNumbers);
+            const byteArray = new Uint8Array(slice);
             byteArrays.push(byteArray);
         }
 
@@ -73,10 +97,12 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
         return blob;
     };
 
+
     async function handleTakePicture() {
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
+        Alert.alert('success', response!.base64);
         const binary = base64ToBlob(response!.base64.split(',')[1], 'image/jpg')
-        setMedia(response!.uri);
+        setMedia(response!.base64);
         const formData = new FormData();
         formData.append('file', binary, 'image.jpg');
         const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
