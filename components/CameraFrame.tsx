@@ -24,10 +24,12 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     const [cameraReady, setCameraReady] = useState(false);
     const cameraRef = useRef<CameraView>(null);
     const [isRecording, setIsRecording] = useState(false);
+    const [pictureSize, setPictureSize] = useState<string | undefined>();
     const [videoTracking, setVideoTracking] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
-        base64: true
+        base64: true,
+        pictureSize
     });
     const [videoSettings, setVideoSettings] = useState<CameraRecordingOptions>({
        maxDuration:20
@@ -51,9 +53,19 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
         );
     }
 
-    const handleCameraReady = () => {
+    const handleCameraReady = async () => {
+
         setCameraReady(true);
+
+        const availableSizes = await cameraRef.current?.getAvailablePictureSizesAsync();
+        console.log(availableSizes);
+
         console.log('Camera is ready');
+
+        if (availableSizes && availableSizes.includes("1920x1080")) {
+            // Set the largest available size (max resolution)
+            setPictureSize("1920x1080");
+        }
     };
 
 
@@ -82,7 +94,6 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     async function toggleRecord() {
         if (isRecording) {
             cameraRef.current?.stopRecording();
-            router.set
             setIsRecording(false);
         } else {
             setIsRecording(true);
@@ -95,6 +106,7 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     return (
         <View style={styles.container}>
             <CameraView 
+                pictureSize={pictureSize}
                 ref={cameraRef} 
                 videoStabilizationMode='off'
                 mode={cameraMode} 
