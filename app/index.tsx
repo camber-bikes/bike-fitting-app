@@ -1,117 +1,79 @@
-import {Card, Text} from 'react-native-paper';
-import {StyleSheet, View, ScrollView} from "react-native";
-import React, {useState} from "react";
-import {Image} from 'expo-image';
-import {Pressable} from "expo-router/build/views/Pressable";
-import {useNavigation} from '@react-navigation/native';
-import {SafeAreaView} from 'react-native-safe-area-context';
-import {SymbolView} from 'expo-symbols';
+import { Card, Text } from 'react-native-paper';
+import { StyleSheet, View, ScrollView, Dimensions } from "react-native";
+import React from "react";
+import { Image } from 'expo-image';
+import { Pressable } from "expo-router/build/views/Pressable";
+import { useNavigation } from '@react-navigation/native';
+import { SafeAreaView } from 'react-native-safe-area-context';
+import { SymbolView } from 'expo-symbols';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
-export const PersonContext = React.createContext({person: {name: "Rudi", uuid: "none"}});
+export const PersonContext = React.createContext({ person: { name: "Rudi", uuid: "none" } });
 export const ScanContext = React.createContext({});
 
 export default function HomeScreen() {
     const BASE_URL = 'https://backend-489080704622.us-west2.run.app';
-    fetch(BASE_URL + '/api/healthcheck')
+    fetch(BASE_URL + '/api/healthcheck');
     const navigation = useNavigation();
 
     return (
-        <SafeAreaView>
-            <ScrollView>
-                <Card style={{width: "100%", height: "100%", display: "flex", justifyContent: "center"}}>
-                    <Text style={styles.title}>Camber Bikes</Text>
-                    <Card.Content>
-                        <View style={styles.container}>
-                            <Image
-                                style={styles.homeImage}
-                                source={require("../assets/images/AngertyBike.jpg")}
-                                contentFit='cover'
-                            />
-                        </View>
-                        <View style={styles.contentAlignment}>
-                            <View style={styles.buttonContainer}>
-                                <Pressable onPress={() => navigation.navigate('personinformation', {})}
-                                           style={styles.cameraAction}>
-                                    <SymbolView
-                                        name="circle.inset.filled"
-                                        size={90}
-                                        type="palette"
-                                        colors={["red", "#a7a7a7"]}
-                                        fallback={
-                                            <FontAwesome5
-                                                name="circle"
-                                                size={90}
-                                                color={"red"}
-                                            />
-                                        }
-                                    />
-                                    <Text style={styles.actionAdvice}>Start Bike Fitting</Text>
-                                </Pressable>
-                            </View>
-                        </View>
-                    </Card.Content>
-                </Card>
-            </ScrollView>
-        </SafeAreaView>
+            <View style={styles.container}>
+                <Image
+                    style={styles.homeImage}
+                    source={require("../assets/images/sascha.jpeg")}
+                    contentFit='cover'
+                />
+                <View style={styles.overlayContainer}>
+                    <Card style={styles.overlayCard}>
+                        <Text style={styles.title}>Start bike fitting</Text>
+                        <Pressable onPress={() => navigation.navigate('personinformation', {})} style={styles.cameraAction}>
+                            <FontAwesome5 name='record-vinyl' size="50l" color="red" />
+                        </Pressable>
+                    </Card>
+                </View>
+            </View>
     );
 }
+
+const { width, height } = Dimensions.get('window');
 
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        alignItems: 'center',
-        justifyContent: 'center',
-    },
-    title: {
-        textAlign: 'center',  // Centers the text horizontally
-        fontSize: '40%',         // You can adjust the font size
-        fontWeight: 'bold',   // Optional: makes the title bold
-        marginBottom: "5%",
-        marginTop: "5%"
-    },
-    contentAlignment: {
-        width: "100%",
-        flexDirection: "column",
-        justifyContent: "center",
-        textAlign: "center"
+        position: 'relative',
     },
     homeImage: {
-        width: 320,
-        height: 440,
+        width: width,
+        height: height,
+        position: 'absolute',
+        top: 0,
+        left: 0,
+    },
+    overlayContainer: {
+        position: 'absolute',
+        bottom: 0,
+        width: '100%',
+        paddingBottom: 20, // Adjust padding for spacing
+    },
+    overlayCard: {
+        backgroundColor: 'rgba(255, 255, 255, 0.8)',
         borderRadius: 18,
-
-    },
-    actionContainer: {
-        display: "flex",
-        flexDirection: "column",
-        justifyContent: "center",
-        alignItems: "center"
-    },
-    recordingButton: {
-        width: 60,
-        height: 60,
-        marginTop: "5%",
-        backgroundColor: "red",
-        borderRadius: 30,
-        borderWidth: 4,           // Border width of 2 pixels
-        borderColor: 'black',
-        flex: 1,
-        alignSelf: 'flex-end',
+        marginHorizontal: 16,
+        padding: 16,
+        marginBottom: 0,
         alignItems: 'center',
+    },
+    title: {
+        textAlign: 'center',
+        fontSize: 24,
+        fontWeight: 'bold',
+        marginBottom: 16,
     },
     actionAdvice: {
-        fontWeight: "bold"
+        fontWeight: "bold",
+        marginTop: 8,
     },
     cameraAction: {
-        flex: 1,
-        alignSelf: 'flex-end',
         alignItems: 'center',
-    },
-    buttonContainer: {
-        flex: 1,
-        flexDirection: 'row',
-        backgroundColor: 'transparent',
-        margin: 64,
     },
 });
