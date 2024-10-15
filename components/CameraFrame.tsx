@@ -20,8 +20,6 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [cameraReady, setCameraReady] = useState(false);
     const cameraRef = useRef<CameraView>(null);
     const [isRecording, setIsRecording] = useState(false);
-    const [videoTracking, setVideoTracking] = useState<string>("");
-    const [picture, setPicture] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true
@@ -61,38 +59,43 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
 
     async function handleTakePicture() {
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        //Alert.alert('success', response!.base64);
-        console.log("Yes I");
-        
         const fileUri = await base64ToBlob(response!.base64, 'image.jpg');
-        console.log("Binary: ");
-        
-        //console.log(binary);
-        
         const formData = new FormData();
+
         formData.append('file', {
             uri: fileUri,
             type: 'image/jpeg',
             name: 'image.jpg',
         });
 
-        const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
+        await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
             method: 'POST',
             body: formData,
         });
-
         navigation.navigate('recordVideo');
     }
-    
+
     async function toggleRecord() {
         if (isRecording) {
             cameraRef.current?.stopRecording();
             setIsRecording(false);
         } else {
             setIsRecording(true);
-            const response = await cameraRef.current?.recordAsync();
-            let tempVariable = response!.uri;
-            setMedia(tempVariable);
+            const videoData = await cameraRef.current.recordAsync();
+            const formData = new FormData();
+            Alert.alert('URI URI', videoData!.uri);
+
+            formData.append('file', {
+                uri: videoData!.uri,
+                type: 'video/quicktime',
+                name: 'video.mov',
+            });
+
+            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/cycling`, {
+                method: 'POST',
+                body: formData,
+            });
+            Alert.alert('Success', video_response.status.toString());
         }
     }
 
