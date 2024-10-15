@@ -4,6 +4,8 @@ import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-n
 import CameraAction from './CameraAction';
 import {useNavigation} from "@react-navigation/native";
 import {ScanContext} from "@/app/index";
+import * as FileSystem from 'expo-file-system';
+
 
 interface CameraFrameProps {
     /*handleTakePicture: () => void;*/
@@ -21,7 +23,8 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const [videoTracking, setVideoTracking] = useState<string>("");
     const [picture, setPicture] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
-        imageType: "jpg"
+        imageType: "jpg",
+        base64: true
     });
     const { scan_uuid } = useContext(ScanContext);
 
@@ -47,68 +50,38 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
         console.log('Camera is ready');
     };
 
-    function toggleCameraFacing() {
-        setFacing(current => (current === 'back' ? 'front' : 'back'));
-    }
 
-    const base64ToBlob = (base64, contentType = '', sliceSize = 512) => {
-        const base64DecodeChars = (input) => {
-            const base64Chars = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789+/';
-            const base64Lookup = new Uint8Array(256);
 
-            for (let i = 0; i < base64Chars.length; i++) {
-                base64Lookup[base64Chars.charCodeAt(i)] = i;
-            }
-
-            const output = [];
-            let buffer = 0;
-            let bits = 0;
-
-            console.log(input)
-            for (let i = 0; i < input.length; i++) {
-                const c = input.charCodeAt(i);
-                if (c === 61) {  // '=' character (padding)
-                    break;
-                }
-
-                buffer = (buffer << 6) | base64Lookup[c];
-                bits += 6;
-
-                if (bits >= 8) {
-                    bits -= 8;
-                    output.push((buffer >> bits) & 0xff);
-                }
-            }
-
-            return output;
-        };
-
-        const byteCharacters = base64DecodeChars(base64);
-        const byteArrays = [];
-
-        for (let offset = 0; offset < byteCharacters.length; offset += sliceSize) {
-            const slice = byteCharacters.slice(offset, offset + sliceSize);
-            const byteArray = new Uint8Array(slice);
-            byteArrays.push(byteArray);
-        }
-
-        const blob = new Blob(byteArrays, { type: contentType });  // Create a Blob from byte arrays
-        return blob;
+    const base64ToBlob = async (base64: string, filename: string) => {
+        const fileUri = `${FileSystem.cacheDirectory}${filename}`;
+        await FileSystem.writeAsStringAsync(fileUri, base64, { encoding: FileSystem.EncodingType.Base64 });
+        return fileUri; // Use this file URI to upload
     };
 
 
     async function handleTakePicture() {
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        Alert.alert('success', response!.base64);
-        const binary = base64ToBlob(response!.base64.split(',')[1], 'image/jpg')
-        setMedia(response!.base64);
+        //Alert.alert('success', response!.base64);
+        console.log("Yes I");
+        
+        const fileUri = await base64ToBlob(response!.base64, 'image.jpg');
+        console.log("Binary: ");
+        
+        //console.log(binary);
+        
         const formData = new FormData();
-        formData.append('file', binary, 'image.jpg');
+        formData.append('file', {
+            uri: fileUri,
+            type: 'image/jpeg',
+            name: 'image.jpg',
+        });
+
         const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
             method: 'POST',
-            body: formData, // Send form data with the file
+            body: formData,
         });
-        navigation.navigate('recordVideo')
+
+        navigation.navigate('recordVideo');
     }
     
     async function toggleRecord() {
