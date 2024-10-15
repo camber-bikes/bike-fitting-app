@@ -1,10 +1,11 @@
-import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions, CameraCapturedPicture } from 'expo-camera';
+import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions, CameraCapturedPicture, CameraRecordingOptions } from 'expo-camera';
 import {useState, useRef, useContext} from 'react';
 import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
 import {useNavigation} from "@react-navigation/native";
 import {ScanContext} from "@/app/index";
 import * as FileSystem from 'expo-file-system';
+import { router } from 'expo-router';
 
 
 interface CameraFrameProps {
@@ -27,6 +28,9 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true
+    });
+    const [videoSettings, setVideoSettings] = useState<CameraRecordingOptions>({
+       maxDuration:20
     });
     const { scan_uuid } = useContext(ScanContext);
 
@@ -62,9 +66,11 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
 
 
     async function handleTakePicture() {
+        
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
         //Alert.alert('success', response!.base64);
         console.log(response!.uri);
+        console.log(scan_uuid);
         
         setUuid(scan_uuid);
         setMedia(response!);  
@@ -76,10 +82,11 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     async function toggleRecord() {
         if (isRecording) {
             cameraRef.current?.stopRecording();
+            router.set
             setIsRecording(false);
         } else {
             setIsRecording(true);
-            const response = await cameraRef.current?.recordAsync();
+            const response = await cameraRef.current?.recordAsync(videoSettings);
             let tempVariable = response!.uri;
             setMedia(tempVariable);
         }
@@ -89,6 +96,7 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
         <View style={styles.container}>
             <CameraView 
                 ref={cameraRef} 
+                videoStabilizationMode='off'
                 mode={cameraMode} 
                 style={styles.camera} 
                 facing={facing} 
