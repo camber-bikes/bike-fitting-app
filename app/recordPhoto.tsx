@@ -5,15 +5,12 @@ import { useContext, useState } from "react";
 import { ActivityIndicator, Alert, Button, StyleSheet, Text, View } from "react-native";
 import {useNavigation} from "@react-navigation/native";
 import { CameraCapturedPicture } from "expo-camera";
-import { ScanContext } from "@/app/index";
 import * as FileSystem from 'expo-file-system';
 
 
 
 export default function recordPhotoScreen() {
     const navigation = useNavigation();
-    const router = useRouter();
-    const params = useLocalSearchParams();
     const [isUploading, setIsUploading] = useState(false); // Add loading state
     const[picture, setPicture] = useState<CameraCapturedPicture>()
     const[pictureTaken, setPictureTaken] = useState(false) 

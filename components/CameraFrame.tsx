@@ -17,7 +17,6 @@ interface CameraFrameProps {
     
 }
 export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid }: CameraFrameProps ) {
-    const navigation = useNavigation();
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
@@ -25,7 +24,6 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     const cameraRef = useRef<CameraView>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [pictureSize, setPictureSize] = useState<string | undefined>();
-    const [videoTracking, setVideoTracking] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true,
@@ -68,20 +66,11 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     };
 
 
-
-/*    const base64ToBlob = async (base64: string, filename: string) => {
-        const fileUri = `${FileSystem.cacheDirectory}${filename}`;
-        await FileSystem.writeAsStringAsync(fileUri, base64, { encoding: FileSystem.EncodingType.Base64 });
-        return fileUri; // Use this file URI to upload
-    };*/
-
-
     async function handleTakePicture() {
         
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        //Alert.alert('success', response!.base64);
         console.log(response!.uri);
-        console.log(scan_uuid);
+        console.log("Scan UUID Handle Take Picture: s" + scan_uuid);
         
         setUuid(scan_uuid);
         setMedia(response!);  
