@@ -87,19 +87,29 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
         setUuid(scan_uuid);
         setMedia(response!);  
         setIsMediaRecorded(true);
-
-        
     }
-    
+
     async function toggleRecord() {
         if (isRecording) {
             cameraRef.current?.stopRecording();
             setIsRecording(false);
         } else {
             setIsRecording(true);
-            const response = await cameraRef.current?.recordAsync(videoSettings);
-            let tempVariable = response!.uri;
-            setMedia(tempVariable);
+            const videoData = await cameraRef.current.recordAsync();
+            const formData = new FormData();
+            Alert.alert('URI URI', videoData!.uri);
+
+            formData.append('file', {
+                uri: videoData!.uri,
+                type: 'video/quicktime',
+                name: 'video.mov',
+            });
+
+            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
+                method: 'POST',
+                body: formData,
+            });
+            Alert.alert('Success', video_response.status.toString());
         }
     }
 
