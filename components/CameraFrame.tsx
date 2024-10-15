@@ -1,4 +1,4 @@
-import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
+import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions, CameraCapturedPicture } from 'expo-camera';
 import {useState, useRef, useContext} from 'react';
 import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
@@ -9,10 +9,13 @@ import * as FileSystem from 'expo-file-system';
 
 interface CameraFrameProps {
     /*handleTakePicture: () => void;*/
-    setMedia: (mediaUri: string) => void; 
+    setMedia: (mediaUri: CameraCapturedPicture) => void; 
     cameraMode: CameraMode;
+    setIsMediaRecorded: (isMediaRecorded: boolean) => void;
+    setUuid: (uuid: string) => void
+    
 }
-export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
+export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid }: CameraFrameProps ) {
     const navigation = useNavigation();
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
@@ -21,7 +24,6 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
     const cameraRef = useRef<CameraView>(null);
     const [isRecording, setIsRecording] = useState(false);
     const [videoTracking, setVideoTracking] = useState<string>("");
-    const [picture, setPicture] = useState<string>("");
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true
@@ -52,36 +54,23 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
 
 
 
-    const base64ToBlob = async (base64: string, filename: string) => {
+/*    const base64ToBlob = async (base64: string, filename: string) => {
         const fileUri = `${FileSystem.cacheDirectory}${filename}`;
         await FileSystem.writeAsStringAsync(fileUri, base64, { encoding: FileSystem.EncodingType.Base64 });
         return fileUri; // Use this file URI to upload
-    };
+    };*/
 
 
     async function handleTakePicture() {
         const response = await cameraRef.current?.takePictureAsync(pictureSettings);
         //Alert.alert('success', response!.base64);
-        console.log("Yes I");
+        console.log(response!.uri);
         
-        const fileUri = await base64ToBlob(response!.base64, 'image.jpg');
-        console.log("Binary: ");
-        
-        //console.log(binary);
-        
-        const formData = new FormData();
-        formData.append('file', {
-            uri: fileUri,
-            type: 'image/jpeg',
-            name: 'image.jpg',
-        });
+        setUuid(scan_uuid);
+        setMedia(response!);  
+        setIsMediaRecorded(true);
 
-        const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
-            method: 'POST',
-            body: formData,
-        });
-
-        navigation.navigate('recordVideo');
+        
     }
     
     async function toggleRecord() {
