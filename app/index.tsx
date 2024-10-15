@@ -13,7 +13,7 @@ export const ScanContext = React.createContext({});
 
 export default function HomeScreen() {
     const BASE_URL = 'https://backend-489080704622.us-west2.run.app';
-    fetch(BASE_URL + '/api/healthcheck');
+    //fetch(BASE_URL + '/api/healthcheck');
     const navigation = useNavigation();
 
     return (

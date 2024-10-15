@@ -17,7 +17,7 @@ export default function TutorialScreen() {
         <Text style={styles.text}>Record yourself pedalling backwards</Text>
       </View>
       <Button
-        onPress={() => navigation.navigate("results")}
+        onPress={() => navigation.navigate("recordPhoto")}
         title="Next"
         color="#de78b2"
       />

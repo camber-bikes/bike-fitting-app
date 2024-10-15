@@ -5,6 +5,8 @@ export default function recordVideocreen() {
 
     const[videoUri, setVideoUri] = useState("")
 
+
+
     return(
         <CameraFrame setMedia={setVideoUri}  cameraMode="video"></CameraFrame>
     );
