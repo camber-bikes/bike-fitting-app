@@ -1,4 +1,4 @@
-import { Alert, Text, Button, Keyboard, Platform, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, TextInput, View, ProgressBarAndroid } from "react-native";
+import { Text, Button, Keyboard, Platform, StyleSheet, KeyboardAvoidingView, TouchableWithoutFeedback, TextInput, View, ProgressBarAndroid } from "react-native";
 import React, { useState } from "react";
 import { useNavigation } from '@react-navigation/native';
 import { useContext } from 'react';
@@ -28,7 +28,6 @@ export default function PersonInformationScreen() {
                 }),
             });
             const person_data = await person_response.json();
-            Alert.alert('Success', 'Person form submitted successfully!');
             person.uuid = person_data.uuid;
 
             const scan_response = await fetch(BASE_URL + 'scans/', {
@@ -41,11 +40,9 @@ export default function PersonInformationScreen() {
                 }),
             });
             const scan_data = await scan_response.json();
-            Alert.alert('Success', 'Scan_id fetched successfully!');
             updateScanUUID(scan_data.scan_uuid);
             navigation.navigate("tutorial");
         } catch (error) {
-            Alert.alert('Error', 'Failed to submit form');
             console.error('Error:', error);
         }
     };

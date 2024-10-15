@@ -1,6 +1,6 @@
 import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
 import {useState, useRef, useContext} from 'react';
-import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
 import {useNavigation} from "@react-navigation/native";
 import {ScanContext} from "@/app/index";
@@ -83,7 +83,6 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
             setIsRecording(true);
             const videoData = await cameraRef.current.recordAsync();
             const formData = new FormData();
-            Alert.alert('URI URI', videoData!.uri);
 
             formData.append('file', {
                 uri: videoData!.uri,
@@ -91,11 +90,10 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
                 name: 'video.mov',
             });
 
-            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
+            await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
                 method: 'POST',
                 body: formData,
             });
-            Alert.alert('Success', video_response.status.toString());
         }
     }
 
