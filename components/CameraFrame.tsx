@@ -91,7 +91,7 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
                 name: 'video.mov',
             });
 
-            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/cycling`, {
+            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
                 method: 'POST',
                 body: formData,
             });
