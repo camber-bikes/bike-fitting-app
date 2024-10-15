@@ -29,7 +29,6 @@ export function CameraFrame({ setMedia, cameraMode, setIsMediaRecorded, setUuid 
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true,
-        pictureSize
     });
     const [videoSettings, setVideoSettings] = useState<CameraRecordingOptions>({
        maxDuration:20
