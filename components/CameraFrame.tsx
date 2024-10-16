@@ -61,31 +61,42 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
         }
     };
 
-
-
     const base64ToBlob = async (base64: string, filename: string) => {
         const fileUri = `${FileSystem.cacheDirectory}${filename}`;
         await FileSystem.writeAsStringAsync(fileUri, base64, { encoding: FileSystem.EncodingType.Base64 });
         return fileUri; // Use this file URI to upload
     };
 
-
     async function handleTakePicture() {
-        const response = await cameraRef.current?.takePictureAsync(pictureSettings);
-        const fileUri = await base64ToBlob(response!.base64, 'image.jpg');
-        const formData = new FormData();
+        try {
+            setIsUploading(true); // Show loading indicator
+            const response = await cameraRef.current?.takePictureAsync(pictureSettings);
+            const fileUri = await base64ToBlob(response!.base64, 'image.jpg');
+            const formData = new FormData();
+            formData.append('file', {
+                uri: fileUri,
+                type: 'image/jpeg',
+                name: 'image.jpg',
+            });
+            console.log("Scan UUID: " + scan_uuid);
 
-        formData.append('file', {
-            uri: fileUri,
-            type: 'image/jpeg',
-            name: 'image.jpg',
-        });
+            const photo_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
+                method: 'POST',
+                body: formData,
+            });
+            if (photo_response.ok) {
+                Alert.alert('Upload Success', 'Your picture has been uploaded!');
+                navigation.navigate('recordVideo');
+            } else {
+                Alert.alert('Upload Failed', 'Please try again.');
+            }
+        } catch (error) {
+            console.error(error);
+            Alert.alert('Error', 'Something went wrong. Please try again.');
+        } finally {
+            setIsUploading(false); // Hide loading indicator
+        }
 
-        await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/photos/body`, {
-            method: 'POST',
-            body: formData,
-        });
-        navigation.navigate('video-tutorial');
     }
 
     async function toggleRecord() {
