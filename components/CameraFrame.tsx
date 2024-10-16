@@ -1,6 +1,6 @@
 import { CameraView, CameraType, useCameraPermissions, CameraMode, CameraPictureOptions, useMicrophonePermissions } from 'expo-camera';
 import {useState, useRef, useContext} from 'react';
-import { Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
+import { ActivityIndicator, Alert, Button, StyleSheet, Text, TouchableOpacity, View } from 'react-native';
 import CameraAction from './CameraAction';
 import {useNavigation} from "@react-navigation/native";
 import {ScanContext} from "@/app/index";
@@ -18,12 +18,15 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
     const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
     const [cameraReady, setCameraReady] = useState(false);
     const cameraRef = useRef<CameraView>(null);
+    const [isUploading, setIsUploading] = useState(false); // Add loading state
     const [isRecording, setIsRecording] = useState(false);
     const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
         imageType: "jpg",
         base64: true
     });
     const { scan_uuid } = useContext(ScanContext);
+
+
 
 
     if (!cameraPermission || !audioPermission) {
@@ -100,19 +103,28 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
 
     return (
         <View style={styles.container}>
-            <CameraView 
-                ref={cameraRef} 
-                mode={cameraMode} 
-                style={styles.camera} 
-                facing={facing} 
-                mute={true} 
-                onCameraReady={() => handleCameraReady()}>
-                <View style={styles.buttonContainer}>
-                    {cameraReady && <TouchableOpacity style={styles.cameraAction}>
-                        <CameraAction cameraMode={cameraMode} isRecording={isRecording} handleCameraShutter={cameraMode === "picture" ? handleTakePicture : toggleRecord}/>
-                    </TouchableOpacity>}
-                </View>
-            </CameraView>
+                <CameraView
+                    ref={cameraRef}
+                    mode={cameraMode}
+                    style={styles.camera}
+                    facing={facing}
+                    mute={true}
+                    onCameraReady={() => handleCameraReady()}>
+                {isUploading ? (
+                    // Show loading indicator while uploading
+                    <View style={styles.loadingScreen}>
+                        <ActivityIndicator size="large" color="#ffffff" />
+                        <Text style={styles.textloader}>Uploading your picture...</Text>
+                    </View>
+                ):(
+                    <View style={styles.buttonContainer}>
+                        {cameraReady && <TouchableOpacity style={styles.cameraAction}>
+                            <CameraAction cameraMode={cameraMode} isRecording={isRecording} handleCameraShutter={cameraMode === "picture" ? handleTakePicture : toggleRecord}/>
+                        </TouchableOpacity>}
+                    </View>
+                )}
+                </CameraView>
+
         </View>
     );
 }
@@ -145,10 +157,19 @@ const styles = StyleSheet.create({
         fontWeight: 'bold',
         color: 'white',
     },
+    textloader:{
+        color: 'white'
+    },
     image: {
         flex: 1,
         width: '100%',
         backgroundColor: '#0553',
+    },
+    loadingScreen: {
+        flex: 1,
+        justifyContent: 'center',
+        alignItems: 'center',
+        backgroundColor: 'rgba(0, 0, 0, 0.5)', // Slightly dim the background
     },
 });
 
