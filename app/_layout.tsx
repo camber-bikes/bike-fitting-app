@@ -37,7 +37,8 @@ export default function RootLayout() {
                 <Stack>
                     <Stack.Screen name="index" options={{headerShown: false}}/>
                     <Stack.Screen name="personinformation" options={{title: 'Person Information'}}/>
-                    <Stack.Screen name="tutorial" options={{title: 'Tutorial'}}/>
+                    <Stack.Screen name="photo-tutorial" options={{title: 'Photo tutorial'}}/>
+                    <Stack.Screen name="video-tutorial" options={{title: 'Video tutorial'}}/>
                     <Stack.Screen name="results" options={{title: 'Results'}}/>
                     <Stack.Screen name="recordPhoto" options={{title: 'Take a photo of your whole body'}}/>
                     <Stack.Screen name="recordVideo" options={{title: 'Take a photo of your on bike pedalling '}}/>
