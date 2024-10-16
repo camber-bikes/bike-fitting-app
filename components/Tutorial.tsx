@@ -9,27 +9,29 @@ import {
 import React from "react";
 import { useNavigation } from "@react-navigation/native";
 
-export default function Tutorial({nextScreen, imageSource, title, description}: {nextScreen: string, imageSource: ImageSourcePropType, title: string, description: string}) {
+export default function Tutorial({
+  nextScreen,
+  imageSource,
+  title,
+  description,
+}: {
+  nextScreen: string;
+  imageSource: ImageSourcePropType;
+  title: string;
+  description: string;
+}) {
   const navigation = useNavigation();
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
-        <Image
-          style={styles.image}
-          source={imageSource}
-        />
+        <Image style={styles.image} source={imageSource} />
       </View>
       <View style={styles.bottomSection}>
         <Text style={styles.title}>{title}</Text>
-        <Text style={styles.paragraph}>
-        {description}
-        </Text>
+        <Text style={styles.paragraph}>{description}</Text>
       </View>
       <View style={styles.buttonStyle}>
-        <Button
-          onPress={() => navigation.navigate(nextScreen)}
-          title="next"
-        />
+        <Button onPress={() => navigation.navigate(nextScreen)} title="next" />
       </View>
     </View>
   );
