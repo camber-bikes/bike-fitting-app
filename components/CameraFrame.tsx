@@ -93,7 +93,7 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
         return;
       }
 
-      navigate("recordVideo");
+      navigate("video-tutorial");
     } catch (error) {
       console.error(error);
       Alert.alert("Error", "could not upload photo");

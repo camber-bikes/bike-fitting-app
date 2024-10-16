@@ -95,7 +95,8 @@ export default function ResultsScreen() {
 
 const styles = StyleSheet.create({
   loadingScreen: {
-    flex: 1,
+    display: "flex",
+    height: "100%",
     justifyContent: "center",
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Slightly dim the background
