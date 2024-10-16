@@ -15,15 +15,15 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { useContext } from "react";
 import { PersonContext } from "@/app/index";
 import { ScanContext } from "@/app/index";
-import { BASE_URL } from "@/constants/Colors";
+import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 export default function PersonInformationScreen() {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
-  const [input1, setInput1] = useState("");
-  const [input2, setInput2] = useState("");
-  const isButtonDisabled = !input1 || !input2;
+  const [name, setName] = useState("");
+  const [height, setHeight] = useState("");
+  const isButtonDisabled = !name || !height;
   const { person } = useContext(PersonContext);
   const { updateScanUUID } = useContext(ScanContext);
 
@@ -35,8 +35,8 @@ export default function PersonInformationScreen() {
           "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          name: input1,
-          height_cm: input2,
+          name: name,
+          height_cm: height,
         }),
       });
       const person_data = await person_response.json();
@@ -66,36 +66,28 @@ export default function PersonInformationScreen() {
       style={styles.container}
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
-        {/* Input field for Name */}
         <View>
-          <Text style={styles.questionText}>Wie heisst du?</Text>
+          <Text style={styles.questionText}>What's your name?</Text>
           <TextInput
             style={styles.input}
-            placeholder="Namen"
-            value={input1}
-            onChangeText={setInput1}
+            placeholder="Name"
+            value={name}
+            onChangeText={setName}
             keyboardType="default"
             placeholderTextColor="#999"
           />
-
-          {/* Question for height */}
-          <Text style={styles.questionText}>Wie gross bist du?</Text>
-
-          {/* Input field for height */}
+          <Text style={styles.questionText}>How tall are you?</Text>
           <TextInput
             style={styles.input}
-            placeholder="Größe in cm"
-            value={input2}
-            onChangeText={setInput2}
+            placeholder="Height in cm"
+            value={height}
+            onChangeText={setHeight}
             keyboardType="numeric"
             placeholderTextColor="#999"
           />
-
-          {/* Submit button */}
           <Button
             onPress={handleSubmit}
-            title="Weiter"
-            color="#de78b2"
+            title="Next"
             disabled={isButtonDisabled}
           />
         </View>

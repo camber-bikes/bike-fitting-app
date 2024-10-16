@@ -9,7 +9,7 @@ import {
   Text,
   Alert,
 } from "react-native";
-import { BASE_URL } from "@/constants/Colors";
+import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
 
 export default function ResultsScreen() {

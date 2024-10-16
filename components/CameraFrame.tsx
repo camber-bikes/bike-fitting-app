@@ -4,7 +4,6 @@ import {
   useCameraPermissions,
   CameraMode,
   CameraPictureOptions,
-  useMicrophonePermissions,
 } from "expo-camera";
 import { useState, useRef, useContext } from "react";
 import {
@@ -18,7 +17,7 @@ import {
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { ScanContext } from "@/app/index";
 import * as FileSystem from "expo-file-system";
-import { BASE_URL } from "@/constants/Colors";
+import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import CameraAction from "./CameraAction";
 
@@ -33,9 +32,8 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
   const cameraRef = useRef<CameraView>(null);
   const [facing, setFacing] = useState<CameraType>("back");
   const [cameraPermission, requestCameraPermission] = useCameraPermissions();
-  const [audioPermission, requestAudioPermission] = useMicrophonePermissions();
   const [cameraReady, setCameraReady] = useState(false);
-  const [isUploading, setIsUploading] = useState(false); // Add loading state
+  const [isUploading, setIsUploading] = useState(false);
   const [isRecording, setIsRecording] = useState(false);
   const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
     imageType: "jpg",
@@ -44,15 +42,12 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
   const [pictureSize, setPictureSize] = useState<string>("");
   const { scan_uuid } = useContext(ScanContext);
 
-  if (!cameraPermission || !audioPermission) {
+  if (!cameraPermission) {
     return <View />;
   }
 
   if (!cameraPermission.granted) {
     requestCameraPermission();
-  }
-  if (!audioPermission.granted) {
-    requestAudioPermission();
   }
 
   const handleCameraReady = async () => {

@@ -9,7 +9,7 @@ import {
 import React from "react";
 import { Image } from "expo-image";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
-import { BASE_URL } from "@/constants/Colors";
+import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 export const PersonContext = React.createContext({

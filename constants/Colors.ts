@@ -24,5 +24,3 @@ export const Colors = {
     tabIconSelected: tintColorDark,
   },
 };
-
-export const BASE_URL = "http://localhost:8000/api";

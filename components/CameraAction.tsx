@@ -4,8 +4,6 @@ import { SymbolView } from "expo-symbols";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import { View } from "react-native";
 
-function handleTakePicture() {}
-
 interface CameraActionProps {
   handleCameraShutter: () => void;
   cameraMode: CameraMode;
@@ -19,7 +17,6 @@ export default function CameraAction({
   return (
     <View>
       <TouchableOpacity onPress={handleCameraShutter}>
-        {/* Ads Camera and Video Shutter for iPhone */}
         <SymbolView
           name={isRecording === true ? "stop.circle" : "circle.inset.filled"}
           size={90}
