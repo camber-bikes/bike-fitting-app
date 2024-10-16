@@ -25,7 +25,7 @@ export default function InstructionCard({
     setIsToggled((old) => !old);
 
     Animated.timing(heightAnimation, {
-      toValue: isToggled ? 0 : 200,
+      toValue: isToggled ? 0 : 150,
       duration: 300,
       useNativeDriver: false,
     }).start();
@@ -57,13 +57,13 @@ export default function InstructionCard({
             <View>
               <Text style={styles.resultText}>
                 {direction == "up"
-                  ? "Your saddle is to low, you should adjust it with the provided amount to correct your knee angle while cycling"
+                  ? `Your saddle is too low. Adjust it by ${amount} cm to achieve an optimal knee angle for improved cycling efficiency and long-term joint health.`
                   : direction == "down"
-                    ? "Your saddle is to far up, you should adjust it with the provided amount to correct your knee angle while cycling"
+                    ? `Your saddle is too high. Lower it by ${amount} cm for optimal knee alignment, improving both performance and comfort while preventing strain.`
                     : direction == "left"
-                      ? "Your saddle is to far right, you should adjust it with the provided amount to correct your elbow angle and back angle while cycling"
+                      ? `Your saddle is too far right. Shift it ${amount} cm to the left to maintain an optimal posture, ensuring better elbow and back alignment for healthier cycling.`
                       : direction == "right"
-                        ? "Your saddle is to far left, you should adjust it with the provided amount to correct your elbow angle and back angle while cycling"
+                        ? `Your saddle is too far left. Shift it ${amount} cm to the right for optimal balance, which enhances your back posture and promotes healthy joint movement.`
                         : ""}
               </Text>
             </View>
@@ -77,15 +77,14 @@ export default function InstructionCard({
 const styles = StyleSheet.create({
   resultText: {
     fontSize: 20,
-    padding: "2%",
-    marginHorizontal: "3%",
-    marginVertical: "3%",
+    padding: 10,
+    margin: 10,
   },
   card: {
     backgroundColor: "#fff",
-    marginHorizontal: "3%",
-    paddingHorizontal: "4%",
-    marginBottom: "3%",
+    marginHorizontal: 10,
+    paddingHorizontal: 10,
+    marginBottom: 10,
     borderRadius: 5,
   },
   cardTitle: {
