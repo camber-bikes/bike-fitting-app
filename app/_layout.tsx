@@ -8,6 +8,7 @@ import {ScanContext} from "@/app/index";
 
 
 import {useColorScheme} from '@/hooks/useColorScheme';
+import { View } from 'react-native-reanimated/lib/typescript/Animated';
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -28,9 +29,7 @@ export default function RootLayout() {
         }
     }, [loaded]);
 
-    if (!loaded) {
-        return null;
-    }
+
 
     return (
         <ScanContext.Provider value={{scan_uuid, updateScanUUID}}>

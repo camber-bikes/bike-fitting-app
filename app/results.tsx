@@ -94,7 +94,7 @@ export default function ResultsScreen() {
 
 const styles = StyleSheet.create({
   title: {
-    fontSize: "80%", // Responsive title size
+    fontSize: 80, // Responsive title size
     fontWeight: 'bold',
     textAlign: 'center',
     marginBottom:   "10%",

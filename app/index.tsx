@@ -4,8 +4,6 @@ import React from "react";
 import { Image } from 'expo-image';
 import { Pressable } from "expo-router/build/views/Pressable";
 import { useNavigation } from '@react-navigation/native';
-import { SafeAreaView } from 'react-native-safe-area-context';
-import { SymbolView } from 'expo-symbols';
 import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
 
 export const PersonContext = React.createContext({ person: { name: "Rudi", uuid: "none" } });
@@ -25,9 +23,9 @@ export default function HomeScreen() {
                 />
                 <View style={styles.overlayContainer}>
                     <Card style={styles.overlayCard}>
-                        <Text style={styles.title}>Start bike fitting</Text>
+                         <Text style={styles.title}>Start bike fitting</Text> 
                         <Pressable onPress={() => navigation.navigate('personinformation', {})} style={styles.cameraAction}>
-                            <FontAwesome5 name='record-vinyl' size="50l" color="red" />
+                             <FontAwesome5 name='jedi-order' size={100} color="red" />
                         </Pressable>
                     </Card>
                 </View>

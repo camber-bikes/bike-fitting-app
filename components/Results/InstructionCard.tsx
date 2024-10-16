@@ -70,7 +70,7 @@ export default InstructionCard = ({ direction, amount }) => {
 
 const styles = StyleSheet.create({
   resultText: {
-    fontSize: "20%",
+    fontSize: 20,
     padding: "2%",
     marginHorizontal: "3%",
     marginVertical: "3%"

@@ -19,7 +19,12 @@
       "adaptiveIcon": {
         "foregroundImage": "./assets/images/adaptive-icon.png",
         "backgroundColor": "#ffffff"
-      }
+      },
+      "permissions": [
+        "android.permission.CAMERA",
+        "android.permission.RECORD_AUDIO"
+      ],
+      "package": "com.camberbikes.bikefitting"
     },
     "web": {
       "bundler": "metro",
@@ -28,17 +33,16 @@
     },
     "plugins": [
       [
-      "expo-camera",
-      {
-        "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
-        "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
-        "recordAudioAndroid": true
-      }],
-    
+        "expo-camera",
+        {
+          "cameraPermission": "Allow $(PRODUCT_NAME) to access your camera",
+          "microphonePermission": "Allow $(PRODUCT_NAME) to access your microphone",
+          "recordAudioAndroid": true
+        }
+      ],
       "expo-router",
       "expo-video"
-      ],
-
+    ],
     "experiments": {
       "typedRoutes": true
     }
