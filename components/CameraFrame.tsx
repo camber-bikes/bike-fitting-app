@@ -25,6 +25,7 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
         base64: true
     });
     const { scan_uuid } = useContext(ScanContext);
+    const [pictureSize, setPictureSize] = useState<string | undefined>();
 
 
 
@@ -45,9 +46,19 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
         );
     }
 
-    const handleCameraReady = () => {
+    const handleCameraReady = async () => {
+
         setCameraReady(true);
+
+        const availableSizes = await cameraRef.current?.getAvailablePictureSizesAsync();
+        console.log(availableSizes);
+
         console.log('Camera is ready');
+
+        if (availableSizes && availableSizes.includes("1920x1080")) {
+            // Set the largest available size (max resolution)
+            setPictureSize("1920x1080");
+        }
     };
 
 
