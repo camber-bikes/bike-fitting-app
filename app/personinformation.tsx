@@ -1,6 +1,5 @@
 import {
   Text,
-  Button,
   Keyboard,
   Platform,
   StyleSheet,
@@ -17,6 +16,7 @@ import { PersonContext } from "@/app/index";
 import { ScanContext } from "@/app/index";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import Button from "../components/Button";
 
 export default function PersonInformationScreen() {
   const { navigate } =
@@ -89,6 +89,7 @@ export default function PersonInformationScreen() {
             onPress={handleSubmit}
             title="Next"
             disabled={isButtonDisabled}
+            style={styles.button}
           />
         </View>
       </TouchableWithoutFeedback>
@@ -119,5 +120,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     fontSize: 18,
+  },
+  button: {
+    marginTop: 35,
+    paddingVertical: 12,
   },
 });

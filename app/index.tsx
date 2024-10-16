@@ -1,20 +1,15 @@
-import {
-  Button,
-  Text,
-  StyleSheet,
-  View,
-  Dimensions,
-  Alert,
-} from "react-native";
+import { Text, StyleSheet, View, Dimensions, Alert } from "react-native";
 import React from "react";
 import { Image } from "expo-image";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import Button from "../components/Button";
 
 export const PersonContext = React.createContext({
   person: { name: "Rudi", uuid: "none" },
 });
+
 export const ScanContext = React.createContext<{
   scan_uuid: string;
   updateScanUUID: (newUuid: string) => void;
@@ -41,6 +36,12 @@ export default function HomeScreen() {
       </View>
       <View style={styles.button}>
         <Button
+          type="secondary"
+          onPress={() => navigate("personinformation")}
+          title="Start scan"
+        />
+        <Button
+          type="primary"
           onPress={() => navigate("personinformation")}
           title="Start scan"
         />
@@ -70,16 +71,17 @@ const styles = StyleSheet.create({
   },
   homeImage: {
     width: width,
-    height: height,
+    height: height + 100, // I don't know why, but without this the Image does not stretch over the whole screen on my phone
     position: "absolute",
     top: 0,
     left: 0,
   },
   button: {
     position: "absolute",
-    paddingHorizontal: 30,
+    paddingHorizontal: 20,
+    gap: 15,
     bottom: 0,
     width: "100%",
-    paddingBottom: 20,
+    paddingBottom: 40,
   },
 });

@@ -1,13 +1,14 @@
 import {
   StyleSheet,
-  Button,
   View,
   Image,
   Text,
   ImageSourcePropType,
 } from "react-native";
 import React from "react";
-import { useNavigation } from "@react-navigation/native";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import Button from "../components/Button";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
 export default function Tutorial({
   nextScreen,
@@ -20,7 +21,9 @@ export default function Tutorial({
   title: string;
   description: string;
 }) {
-  const navigation = useNavigation();
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   return (
     <View style={styles.container}>
       <View style={styles.topSection}>
@@ -31,7 +34,7 @@ export default function Tutorial({
         <Text style={styles.paragraph}>{description}</Text>
       </View>
       <View style={styles.buttonStyle}>
-        <Button onPress={() => navigation.navigate(nextScreen)} title="next" />
+        <Button onPress={() => navigate(nextScreen)} title="next" />
       </View>
     </View>
   );
