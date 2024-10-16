@@ -5,9 +5,14 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
+import { Person } from "@/components/types";
 
-export const PersonContext = React.createContext({
-  person: { name: "Rudi", uuid: "none" },
+export const PersonContext = React.createContext<{
+  person: Person;
+  updatePerson: (person: Person) => void;
+}>({
+  person: { name: "default", uuid: null, height: 0 },
+  updatePerson: () => {},
 });
 
 export const ScanContext = React.createContext<{
@@ -45,6 +50,7 @@ export default function HomeScreen() {
           onPress={() => navigate("personinformation")}
           title="Start scan"
         />
+        <Button onPress={() => navigate("history")} title="History" />
       </View>
     </View>
   );

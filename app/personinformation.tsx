@@ -17,6 +17,7 @@ import { ScanContext } from "@/app/index";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export default function PersonInformationScreen() {
   const { navigate } =
@@ -26,7 +27,12 @@ export default function PersonInformationScreen() {
   const isButtonDisabled = !name || !height;
   const { person } = useContext(PersonContext);
   const { updateScanUUID } = useContext(ScanContext);
-
+  console.log("a", person?.uuid);
+  console.log("a", person?.name);
+  console.log(person);
+  if (!person?.uuid) {
+    navigate("photo-tutorial")
+  }
   const handleSubmit = async () => {
     try {
       const person_response = await fetch(`${BASE_URL}/persons/information`, {
@@ -41,7 +47,16 @@ export default function PersonInformationScreen() {
       });
       const person_data = await person_response.json();
       person.uuid = person_data.uuid;
-
+      person.name = person_data.name;
+      const storeData = async (value: String) => {
+        try {
+          const jsonValue = JSON.stringify(value);
+          await AsyncStorage.setItem("person", jsonValue);
+        } catch (e) {
+          console.error("Error Saving Person to Local KV Store");
+        }
+      };
+      storeData(JSON.stringify(person_data));
       const scan_response = await fetch(`${BASE_URL}/scans/`, {
         method: "POST",
         headers: {
@@ -59,6 +74,8 @@ export default function PersonInformationScreen() {
       Alert.alert("Error", "could not create new scan");
     }
   };
+
+
 
   return (
     <KeyboardAvoidingView
