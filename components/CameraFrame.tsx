@@ -114,12 +114,20 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
                 type: 'video/quicktime',
                 name: 'video.mov',
             });
-
-            const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
-                method: 'POST',
-                body: formData,
-            });
-            Alert.alert('Success', video_response.status.toString());
+            try {
+                setIsUploading(true)
+                const video_response = await fetch(`https://backend-489080704622.us-west2.run.app/api/scans/${scan_uuid}/videos/pedalling`, {
+                    method: 'POST',
+                    body: formData,
+                });
+                Alert.alert('Success', video_response.status.toString());
+                navigation.navigate('results');
+            } catch (error) {
+                Alert.alert('Upload Failed', 'Please try again.');
+            }
+            finally{
+                setIsUploading(false)
+            }
         }
     }
 
@@ -136,7 +144,7 @@ export function CameraFrame({cameraMode}: CameraFrameProps) {
                     // Show loading indicator while uploading
                     <View style={styles.loadingScreen}>
                         <ActivityIndicator size="large" color="#ffffff" />
-                        <Text style={styles.textloader}>Uploading your picture...</Text>
+                        <Text style={styles.textloader}>Uploading your {cameraMode}...</Text>
                     </View>
                 ):(
                     <View style={styles.buttonContainer}>
