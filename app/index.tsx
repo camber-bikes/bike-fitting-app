@@ -1,76 +1,85 @@
-import { Card, Text } from 'react-native-paper';
-import { StyleSheet, View, ScrollView, Dimensions } from "react-native";
+import {
+  Button,
+  Text,
+  StyleSheet,
+  View,
+  Dimensions,
+  Alert,
+} from "react-native";
 import React from "react";
-import { Image } from 'expo-image';
-import { Pressable } from "expo-router/build/views/Pressable";
-import { useNavigation } from '@react-navigation/native';
-import FontAwesome5 from '@expo/vector-icons/FontAwesome5';
+import { Image } from "expo-image";
+import { ParamListBase, useNavigation } from "@react-navigation/native";
+import { BASE_URL } from "@/constants/Colors";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 
-export const PersonContext = React.createContext({ person: { name: "Rudi", uuid: "none" } });
-export const ScanContext = React.createContext({});
+export const PersonContext = React.createContext({
+  person: { name: "Rudi", uuid: "none" },
+});
+export const ScanContext = React.createContext<{
+  scan_uuid: string;
+  updateScanUUID: (newUuid: string) => void;
+}>({ scan_uuid: "", updateScanUUID: () => {} });
 
 export default function HomeScreen() {
-    const BASE_URL = 'https://backend-489080704622.us-west2.run.app';
-    const navigation = useNavigation();
+  fetch(`${BASE_URL}/healthcheck`).catch((err) => {
+    console.error(err);
+    Alert.alert("Error", "the api is not healthy");
+  });
 
-    return (
-            <View style={styles.container}>
-                <Image
-                    style={styles.homeImage}
-                    source={require("../assets/images/sascha.jpeg")}
-                    contentFit='cover'
-                />
-                <View style={styles.overlayContainer}>
-                    <Card style={styles.overlayCard}>
-                         <Text style={styles.title}>Start bike fitting</Text> 
-                        <Pressable onPress={() => navigation.navigate('personinformation', {})} style={styles.cameraAction}>
-                             <FontAwesome5 name='jedi-order' size={100} color="red" />
-                        </Pressable>
-                    </Card>
-                </View>
-            </View>
-    );
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
+  return (
+    <View style={styles.container}>
+      <Image
+        style={styles.homeImage}
+        source={require("../assets/images/sascha.jpeg")}
+        contentFit="cover"
+      />
+      <View style={styles.titleView}>
+        <Text style={styles.title}>Start bike fitting</Text>
+      </View>
+      <View style={styles.button}>
+        <Button
+          onPress={() => navigate("personinformation")}
+          title="Start scan"
+        />
+      </View>
+    </View>
+  );
 }
 
-const { width, height } = Dimensions.get('window');
+const { width, height } = Dimensions.get("window");
 
 const styles = StyleSheet.create({
-    container: {
-        flex: 1,
-        position: 'relative',
-    },
-    homeImage: {
-        width: width,
-        height: height,
-        position: 'absolute',
-        top: 0,
-        left: 0,
-    },
-    overlayContainer: {
-        position: 'absolute',
-        bottom: 0,
-        width: '100%',
-        paddingBottom: 20, // Adjust padding for spacing
-    },
-    overlayCard: {
-        backgroundColor: 'rgba(255, 255, 255, 0.8)',
-        borderRadius: 18,
-        marginHorizontal: 16,
-        padding: 16,
-        marginBottom: 0,
-        alignItems: 'center',
-    },
-    title: {
-        textAlign: 'center',
-        fontSize: 24,
-        fontWeight: 'bold',
-        marginBottom: 16,
-    },
-    actionAdvice: {
-        fontWeight: "bold",
-        marginTop: 8,
-    },
-    cameraAction: {
-        alignItems: 'center',
-    },
+  container: {
+    flex: 1,
+    position: "relative",
+  },
+  titleView: {
+    position: "absolute",
+    top: 0,
+    width: "100%",
+    paddingTop: 70,
+  },
+  title: {
+    textAlign: "center",
+    fontSize: 40,
+    fontWeight: "bold",
+    marginTop: 16,
+  },
+  homeImage: {
+    width: width,
+    height: height,
+    position: "absolute",
+    top: 0,
+    left: 0,
+  },
+  button: {
+    position: "absolute",
+    paddingHorizontal: 30,
+    bottom: 0,
+    width: "100%",
+    paddingBottom: 20,
+  },
 });
