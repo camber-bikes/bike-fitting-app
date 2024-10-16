@@ -8,11 +8,10 @@ import * as FileSystem from 'expo-file-system';
 
 
 interface CameraFrameProps {
-    /*handleTakePicture: () => void;*/
     setMedia: (mediaUri: string) => void; 
     cameraMode: CameraMode;
 }
-export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
+export function CameraFrame({cameraMode}: CameraFrameProps) {
     const navigation = useNavigation();
     const [facing, setFacing] = useState<CameraType>('back');
     const [cameraPermission, requestCameraPermission] = useCameraPermissions();
@@ -72,7 +71,7 @@ export function CameraFrame({setMedia, cameraMode}:CameraFrameProps) {
             method: 'POST',
             body: formData,
         });
-        navigation.navigate('recordVideo');
+        navigation.navigate('video-tutorial');
     }
 
     async function toggleRecord() {
