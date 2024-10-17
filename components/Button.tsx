@@ -32,11 +32,25 @@ export default function Button(props: ButtonProps) {
 
   return (
     <Pressable
-      onPress={onPress}
-      disabled={disabled}
-      style={[styles.pressable, styles[type], style]}
+      onPress={() => {
+        if (!disabled) onPress();
+      }}
+      style={[
+        styles.pressable,
+        styles[type],
+        style,
+        disabled && styles.disabledStyle,
+      ]}
     >
-      <Text style={[styles.text, styles[`text${type}`]]}>{title}</Text>
+      <Text
+        style={[
+          styles.text,
+          styles[`text${type}`],
+          disabled && styles.disabledTextStyle,
+        ]}
+      >
+        {title}
+      </Text>
     </Pressable>
   );
 }
@@ -65,6 +79,9 @@ const styles = StyleSheet.create({
     borderWidth: 5,
     paddingVertical: 16,
   },
+  disabledStyle: {
+    backgroundColor: "gray",
+  },
   text: {
     fontSize: 33,
   },
@@ -75,5 +92,8 @@ const styles = StyleSheet.create({
   textsecondary: {
     color: "#3f96fd",
     fontWeight: "bold",
+  },
+  disabledTextStyle: {
+    color: "lightgray",
   },
 });

@@ -12,7 +12,7 @@ import { PersonContext, ScanContext } from "@/app/index";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
-import { Person } from "@/components/types";
+import { Person } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
@@ -40,17 +40,15 @@ export default function RootLayout() {
     async function getPerson() {
       try {
         const jsonValue = await AsyncStorage.getItem("person");
-        const val = jsonValue != null ? JSON.parse(jsonValue) : null;
+        const val =
+          jsonValue != null ? JSON.parse(JSON.parse(jsonValue)) : null;
         updatePerson(val);
       } catch (e) {
         // read error
       }
-
-      console.log("Done.");
     }
     getPerson();
   }, []);
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();

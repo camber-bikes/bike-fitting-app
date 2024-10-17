@@ -82,13 +82,14 @@ export default function ResultsScreen() {
           direction={result_y > 0 ? "up" : "down"}
           amount={Math.round(result_y * 10) / 10}
         ></InstructionCard>
-        <InstructionCard
-          direction={result_x > 0 ? "left" : "right"}
-          amount={Math.round(result_x * 10) / 10}
-        ></InstructionCard>
       </View>
     </ScrollView>
   );
+  // use this once horizontal adjustment is implemented
+  // <InstructionCard
+  //   direction={result_x > 0 ? "left" : "right"}
+  //   amount={Math.round(result_x * 10) / 10}
+  // ></InstructionCard>
 }
 
 const styles = StyleSheet.create({
