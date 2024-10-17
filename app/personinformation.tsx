@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   Alert,
+  useColorScheme,
 } from "react-native";
 import React, { useState } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -20,6 +21,8 @@ import Button from "../components/Button";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import createScan from "@/lib/api";
 import { Person } from "@/lib/types";
+import { ThemedText } from "@/components/ThemedText";
+import { Colors } from "@/constants/Colors";
 
 export default function PersonInformationScreen() {
   const { navigate } =
@@ -29,6 +32,8 @@ export default function PersonInformationScreen() {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const isButtonDisabled = !name || !height;
   const { updateScanUUID } = useContext(ScanContext);
+  const colorScheme = useColorScheme();
+  const themeTextInputStyle = colorScheme === 'light' ? styles.lightThemeTextInput : styles.darkThemeTextInput;
   const { updatePerson } = useContext(PersonContext);
 
   const handleHeightChange = (value: string) => {
@@ -92,18 +97,18 @@ export default function PersonInformationScreen() {
     >
       <TouchableWithoutFeedback onPress={Keyboard.dismiss}>
         <View>
-          <Text style={styles.questionText}>What's your name?</Text>
+          <ThemedText style={styles.questionText}>What's your name?</ThemedText>
           <TextInput
-            style={styles.input}
+            style={[styles.input, themeTextInputStyle]}
             placeholder="Name"
             value={name}
             onChangeText={setName}
             keyboardType="default"
             placeholderTextColor="#999"
           />
-          <Text style={styles.questionText}>How tall are you?</Text>
+          <ThemedText style={styles.questionText}>How tall are you?</ThemedText>
           <TextInput
-            style={styles.input}
+            style={[styles.input, themeTextInputStyle]}
             placeholder="Height in cm"
             value={height}
             onChangeText={handleHeightChange}
@@ -128,13 +133,11 @@ const styles = StyleSheet.create({
     flex: 1,
     padding: 20,
     justifyContent: "center",
-    backgroundColor: "#f8f8f8",
   },
   questionText: {
     fontSize: 20,
     fontWeight: "bold",
     marginVertical: 10,
-    color: "#333",
     textAlign: "center",
   },
   input: {
@@ -146,6 +149,14 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     fontSize: 18,
+    
+    
+  },
+  lightThemeTextInput:{
+  color:"#11181C",
+  },
+  darkThemeTextInput: {
+    color: "#ECEDEE",
   },
   button: {
     marginTop: 35,

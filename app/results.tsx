@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ResultsScreen() {
   const ref = useRef(null);
@@ -63,9 +64,9 @@ export default function ResultsScreen() {
     return (
       <View style={styles.loadingScreen}>
         <ActivityIndicator size="large" color="#ffffff" />
-        <Text style={styles.textloader}>
+        <ThemedText style={styles.textloader}>
           Loading your results, please hang on
-        </Text>
+        </ThemedText>
       </View>
     );
   }

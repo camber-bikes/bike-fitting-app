@@ -20,6 +20,7 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 TimeAgo.addDefaultLocale(en);
+import { ThemedText } from "@/components/ThemedText";
 export default function History() {
   const { person } = useContext(PersonContext);
   const [scans, setScans] = useState<Scan[]>([]);
