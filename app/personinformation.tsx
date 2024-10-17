@@ -17,6 +17,9 @@ import { ScanContext } from "@/app/index";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import createScan from "@/lib/api";
+import { Person } from "@/lib/types";
 
 export default function PersonInformationScreen() {
   const { navigate } =
@@ -25,8 +28,8 @@ export default function PersonInformationScreen() {
   const [height, setHeight] = useState("");
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const isButtonDisabled = !name || !height;
-  const { person } = useContext(PersonContext);
   const { updateScanUUID } = useContext(ScanContext);
+  const { updatePerson } = useContext(PersonContext);
 
     const handleHeightChange = (value : string) => {
         if (/^\d*$/.test(value)) {  // Allow only numeric input
@@ -56,19 +59,23 @@ export default function PersonInformationScreen() {
         }),
       });
       const person_data = await person_response.json();
-      person.uuid = person_data.uuid;
-    
-      const scan_response = await fetch(`${BASE_URL}/scans/`, {
-        method: "POST",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          person_uuid: person.uuid,
-        }),
-      });
-      const scan_data = await scan_response.json();
-      updateScanUUID(scan_data.scan_uuid);
+      const person: Person = {
+        uuid: person_data.uuid,
+        name: person_data.name,
+        height: person_data.height,
+      };
+      updatePerson(person);
+
+      try {
+        const jsonValue = JSON.stringify(JSON.stringify(person));
+        await AsyncStorage.setItem("person", jsonValue);
+      } catch (e) {
+        console.error("Error Saving Person to Local KV Store");
+      }
+
+      const scan = await createScan(person?.uuid ?? "");
+      updateScanUUID(scan.scan_uuid ?? "");
+
       navigate("photo-tutorial");
     } catch (error) {
       console.error("Error:", error);

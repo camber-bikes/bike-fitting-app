@@ -8,6 +8,10 @@ import {
   StyleSheet,
   Pressable,
 } from "react-native";
+import Button from "../Button";
+import { useNavigation } from "expo-router";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { ParamListBase } from "@react-navigation/native";
 
 type Direction = "up" | "down" | "left" | "right";
 
@@ -18,6 +22,9 @@ export default function InstructionCard({
   direction: Direction;
   amount: number;
 }) {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const [isToggled, setIsToggled] = useState(false);
   const [heightAnimation] = useState(new Animated.Value(0));
 
@@ -70,6 +77,19 @@ export default function InstructionCard({
           )}
         </Animated.View>
       </Pressable>
+      <View style={styles.buttons}>
+        <Button
+          style={styles.button}
+          type="secondary"
+          onPress={() => navigate("history")}
+          title="History"
+        />
+        <Button
+          style={styles.button}
+          onPress={() => navigate("index")}
+          title="Home"
+        />
+      </View>
     </View>
   );
 }
@@ -96,7 +116,7 @@ const styles = StyleSheet.create({
     cursor: "pointer",
   },
   saddleIconContainer: {
-    width: 30,
+    width: 25,
     aspectRatio: 1,
   },
   saddleIcon: {
@@ -111,8 +131,20 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   iconHolder: {
+    width: 100,
     display: "flex",
+    alignItems: "center",
     flexDirection: "row",
-    justifyContent: "flex-end",
+    justifyContent: "center",
+  },
+  buttons: {
+    width: "100%",
+    padding: 20,
+    display: "flex",
+    gap: 10,
+    flexDirection: "row",
+  },
+  button: {
+    width: "50%",
   },
 });

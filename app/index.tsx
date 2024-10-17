@@ -1,13 +1,19 @@
 import { Text, StyleSheet, View, Dimensions, Alert } from "react-native";
-import React from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { Image } from "expo-image";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
+import { Person } from "../lib/types";
+import createScan from "@/lib/api";
 
-export const PersonContext = React.createContext({
-  person: { name: "Rudi", uuid: "none" },
+export const PersonContext = React.createContext<{
+  person: Person;
+  updatePerson: (person: Person) => void;
+}>({
+  person: { name: "default", uuid: null, height: 0 },
+  updatePerson: () => {},
 });
 
 export const ScanContext = React.createContext<{
@@ -16,14 +22,38 @@ export const ScanContext = React.createContext<{
 }>({ scan_uuid: "", updateScanUUID: () => {} });
 
 export default function HomeScreen() {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const { person } = useContext(PersonContext);
+  const { updateScanUUID } = useContext(ScanContext);
+  const [nextSite, setNextSite] = useState("personinformation");
+
   fetch(`${BASE_URL}/healthcheck`).catch((err) => {
     console.error(err);
     Alert.alert("Error", "the api is not healthy");
   });
 
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+  const handleClick = () => {
+    if (!person) {
+      navigate("personinformation");
+      return;
+    }
 
+    const addScan = async () => {
+      try {
+        const scan = await createScan(person?.uuid ?? "");
+        updateScanUUID(scan?.scan_uuid ?? "");
+        setNextSite("photo-tutorial");
+      } catch (error) {
+        console.error(error);
+        Alert.alert("Error", "Failed to create scan");
+      }
+    };
+
+    addScan();
+
+    navigate("photo-tutorial");
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -35,16 +65,14 @@ export default function HomeScreen() {
         <Text style={styles.title}>Start bike fitting</Text>
       </View>
       <View style={styles.button}>
-        <Button
-          type="secondary"
-          onPress={() => navigate("personinformation")}
-          title="Start scan"
-        />
-        <Button
-          type="primary"
-          onPress={() => navigate("personinformation")}
-          title="Start scan"
-        />
+        {person && (
+          <Button
+            type="secondary"
+            onPress={() => navigate("history")}
+            title="History"
+          />
+        )}
+        <Button type="primary" onPress={handleClick} title="Start scan" />
       </View>
     </View>
   );

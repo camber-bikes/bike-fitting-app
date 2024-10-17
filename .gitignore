@@ -26,3 +26,5 @@ bun.lockb
 
 android/
 ios/
+
+build*
