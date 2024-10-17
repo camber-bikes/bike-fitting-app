@@ -13,7 +13,6 @@ import {
 import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
 import { ThemedText } from "@/components/ThemedText";
-import { ThemedView } from "@/components/ThemedView";
 
 export default function ResultsScreen() {
   const ref = useRef(null);
