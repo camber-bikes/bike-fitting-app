@@ -8,7 +8,6 @@ import {
   TextInput,
   View,
   Alert,
-  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
