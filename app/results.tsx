@@ -72,7 +72,7 @@ export default function ResultsScreen() {
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <View>
         <View style={styles.videoContainer}>
           <VideoView ref={ref} style={styles.video} player={player} />
@@ -94,6 +94,10 @@ export default function ResultsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+  },
   loadingScreen: {
     flex: 1,
     height: "100%",

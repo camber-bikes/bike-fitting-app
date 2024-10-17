@@ -62,7 +62,7 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="index" options={{ headerShown: false, title: "Home" }} />
             <Stack.Screen
               name="personinformation"
               options={{ title: "Person Information" }}

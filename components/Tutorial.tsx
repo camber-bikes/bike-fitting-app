@@ -36,7 +36,7 @@ export default function Tutorial({
         <ThemedText style={styles.paragraph}>{description}</ThemedText>
       </ThemedView>
       <ThemedView style={styles.buttonStyle}>
-        <Button onPress={() => navigate(nextScreen)} title="next" />
+        <Button onPress={() => navigate(nextScreen)} title="Next" />
       </ThemedView>
     </ThemedView>
   );

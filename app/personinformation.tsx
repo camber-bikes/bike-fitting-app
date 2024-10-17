@@ -25,6 +25,8 @@ import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
 
 export default function PersonInformationScreen() {
+  const colorScheme = useColorScheme();
+  const themeTextInputStyle = colorScheme === 'light' ? styles.lightThemeTextInput : styles.darkThemeTextInput;
   const { navigate } =
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [name, setName] = useState("");
@@ -32,8 +34,6 @@ export default function PersonInformationScreen() {
   const [isUploading, setIsUploading] = useState<boolean>(false);
   const isButtonDisabled = !name || !height;
   const { updateScanUUID } = useContext(ScanContext);
-  const colorScheme = useColorScheme();
-  const themeTextInputStyle = colorScheme === 'light' ? styles.lightThemeTextInput : styles.darkThemeTextInput;
   const { updatePerson } = useContext(PersonContext);
 
   const handleHeightChange = (value: string) => {

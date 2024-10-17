@@ -225,6 +225,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-      backgroundColor: "#111", // Slightly dim the background
+      backgroundColor: "#111",
   },
 });

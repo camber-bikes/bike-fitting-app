@@ -1,4 +1,4 @@
-import { Text, Pressable, StyleSheet, ViewStyle } from "react-native";
+import { Text, Pressable, StyleSheet, ViewStyle, useColorScheme } from "react-native";
 
 type ButtonType = "primary" | "secondary";
 
@@ -29,13 +29,19 @@ const defaultProps: ButtonPropsValid = {
 export default function Button(props: ButtonProps) {
   const propsWithDefaults: ButtonPropsValid = { ...defaultProps, ...props };
   const { title, type, onPress, disabled, style } = propsWithDefaults;
+  const colorScheme = useColorScheme();
+  const themesecondary = colorScheme === 'light' ? styles.lightSecondaryButton : styles.darkSecondaryButton;
+  const themeprimary = colorScheme === 'light' ? styles.lightPrimaryButton : styles.darkPrimaryButton;
+  const themeButton = type === "primary" ? themeprimary : themesecondary ;
 
   return (
     <Pressable
       onPress={() => {
         if (!disabled) onPress();
       }}
+
       style={[
+        themeButton,
         styles.pressable,
         styles[type],
         style,
@@ -44,6 +50,7 @@ export default function Button(props: ButtonProps) {
     >
       <Text
         style={[
+          themeButton,
           styles.text,
           styles[`text${type}`],
           disabled && styles.disabledTextStyle,
@@ -70,11 +77,12 @@ const styles = StyleSheet.create({
     shadowRadius: 2,
   },
   primary: {
+    color: "#282828",
     backgroundColor: "#3f96fd",
     paddingVertical: 15,
   },
   secondary: {
-    backgroundColor: "white",
+    
     borderColor: "#3f96fd",
     borderWidth: 0,
     paddingVertical: 15,
@@ -88,7 +96,7 @@ const styles = StyleSheet.create({
     fontSize: 23,
   },
   textprimary: {
-    color: "white",
+    
     fontWeight: "bold",
   },
   textsecondary: {
@@ -97,5 +105,17 @@ const styles = StyleSheet.create({
   },
   disabledTextStyle: {
     color: "lightgray",
+  },
+  lightPrimaryButton: {
+    color: "white",
+  },
+  darkPrimaryButton: {
+    color:"#282828", 
+  },
+  lightSecondaryButton:{
+    backgroundColor: "white",
+  },
+  darkSecondaryButton:{
+    backgroundColor: "#282828"
   },
 });

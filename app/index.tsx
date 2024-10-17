@@ -5,13 +5,9 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
-<<<<<<< HEAD
 import { Person } from "../lib/types";
 import createScan from "@/lib/api";
-=======
-import { Person } from "@/components/types";
 import { ThemedText } from "@/components/ThemedText";
->>>>>>> 2bcb22a (Added Godmode Dark Mode)
 
 export const PersonContext = React.createContext<{
   person: Person;
