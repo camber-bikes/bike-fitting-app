@@ -63,7 +63,8 @@ export default function HomeScreen() {
         contentFit="cover"
       /> 
       <View style={styles.titleView}>
-        <ThemedText style={styles.title}>Start bike fitting</ThemedText>
+        <Text style={styles.title}>AI-Bike Fitting </Text>
+        <Text style={styles.subtitle}>by Camber Bikes </Text>
       </View>
       <View style={styles.button}>
         {person && (
@@ -97,6 +98,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     marginTop: 16,
+  },
+  subtitle:{
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
   },
   homeImage: {
     width: width,

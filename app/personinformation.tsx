@@ -23,6 +23,7 @@ import createScan from "@/lib/api";
 import { Person } from "@/lib/types";
 import { ThemedText } from "@/components/ThemedText";
 import { Colors } from "@/constants/Colors";
+import { Stack } from "expo-router";
 
 export default function PersonInformationScreen() {
   const colorScheme = useColorScheme();
