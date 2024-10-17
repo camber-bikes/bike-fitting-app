@@ -52,7 +52,7 @@ export default function InstructionCard({
             <View style={styles.iconHolder}>
               <View style={styles.saddleIconContainer}>
                 <Image
-                  source={require("@/assets/images/saddle.png")}
+                  source={colorScheme === 'light' ? (require("@/assets/images/saddle-dark.png")):(require("@/assets/images/saddle-light.png"))}
                   style={styles.saddleIcon}
                 />
               </View>
