@@ -8,6 +8,7 @@ import {
   TextInput,
   View,
   Alert,
+  ActivityIndicator,
 } from "react-native";
 import React, { useState } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
@@ -23,12 +24,28 @@ export default function PersonInformationScreen() {
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [name, setName] = useState("");
   const [height, setHeight] = useState("");
+  const [isUploading, setIsUploading] = useState<boolean>(false);
   const isButtonDisabled = !name || !height;
   const { person } = useContext(PersonContext);
   const { updateScanUUID } = useContext(ScanContext);
 
+    const handleHeightChange = (value : string) => {
+        if (/^\d*$/.test(value)) {  // Allow only numeric input
+            setHeight(value);
+        }
+    };
+
+
   const handleSubmit = async () => {
     try {
+      setIsUploading(true);
+      console.log(isUploading);
+      
+      const numericHeight = parseInt(height);
+      if (isNaN(numericHeight) || numericHeight < 50 || numericHeight > 300) {
+        Alert.alert("Invalid height", "Please enter your height in cm.");
+        return;
+      }
       const person_response = await fetch(`${BASE_URL}/persons/information`, {
         method: "PUT",
         headers: {
@@ -41,7 +58,7 @@ export default function PersonInformationScreen() {
       });
       const person_data = await person_response.json();
       person.uuid = person_data.uuid;
-
+    
       const scan_response = await fetch(`${BASE_URL}/scans/`, {
         method: "POST",
         headers: {
@@ -57,6 +74,9 @@ export default function PersonInformationScreen() {
     } catch (error) {
       console.error("Error:", error);
       Alert.alert("Error", "could not create new scan");
+    }
+    finally{
+        setIsUploading(false);
     }
   };
 
@@ -81,10 +101,11 @@ export default function PersonInformationScreen() {
             style={styles.input}
             placeholder="Height in cm"
             value={height}
-            onChangeText={setHeight}
+            onChangeText={handleHeightChange}
             keyboardType="numeric"
             placeholderTextColor="#999"
-          />
+            maxLength={3}
+          />    
           <Button
             onPress={handleSubmit}
             title="Next"
@@ -125,4 +146,13 @@ const styles = StyleSheet.create({
     marginTop: 35,
     paddingVertical: 12,
   },
+  loadingScreen: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "rgba(0, 0, 0, 0.5)", // Slightly dim the background
+  },
+  textloader:{
+    color:"white",
+  }
 });
