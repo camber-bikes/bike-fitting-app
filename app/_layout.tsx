@@ -12,7 +12,7 @@ import { PersonContext, ScanContext } from "@/app/index";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
 import { View } from "react-native-reanimated/lib/typescript/Animated";
-import { Person } from "@/components/types";
+import { Person } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.

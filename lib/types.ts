@@ -3,3 +3,8 @@ export type Person = {
   uuid: string | null;
   height: number;
 };
+
+export type Scan = {
+  scan_uuid: string | null;
+  person_uuid: string | null;
+};
