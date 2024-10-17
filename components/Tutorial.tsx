@@ -34,7 +34,7 @@ export default function Tutorial({
         <Text style={styles.paragraph}>{description}</Text>
       </View>
       <View style={styles.buttonStyle}>
-        <Button onPress={() => navigate(nextScreen)} title="next" />
+        <Button onPress={() => navigate(nextScreen)} title="Next" />
       </View>
     </View>
   );

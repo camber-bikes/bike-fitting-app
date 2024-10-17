@@ -4,6 +4,7 @@ import {
   useCameraPermissions,
   CameraMode,
   CameraPictureOptions,
+  CameraRecordingOptions,
 } from "expo-camera";
 import { useState, useRef, useContext } from "react";
 import {
@@ -38,6 +39,9 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
   const [pictureSettings, setPictureSettings] = useState<CameraPictureOptions>({
     imageType: "jpg",
     base64: true,
+  });
+  const [videoSettings, setVideoSettings] = useState<CameraRecordingOptions>({
+    maxDuration: 20,
   });
   const [pictureSize, setPictureSize] = useState<string>("");
   const { scan_uuid } = useContext(ScanContext);
@@ -110,7 +114,7 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
     }
 
     setIsRecording(true);
-    const videoData = await cameraRef.current?.recordAsync();
+    const videoData = await cameraRef.current?.recordAsync(videoSettings);
 
     const formData = new FormData();
     formData.append("file", {

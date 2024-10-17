@@ -139,7 +139,6 @@ const styles = StyleSheet.create({
   },
   buttons: {
     width: "100%",
-    padding: 20,
     display: "flex",
     gap: 10,
     flexDirection: "row",

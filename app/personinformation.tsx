@@ -31,18 +31,18 @@ export default function PersonInformationScreen() {
   const { updateScanUUID } = useContext(ScanContext);
   const { updatePerson } = useContext(PersonContext);
 
-    const handleHeightChange = (value : string) => {
-        if (/^\d*$/.test(value)) {  // Allow only numeric input
-            setHeight(value);
-        }
-    };
-
+  const handleHeightChange = (value: string) => {
+    if (/^\d*$/.test(value)) {
+      // Allow only numeric input
+      setHeight(value);
+    }
+  };
 
   const handleSubmit = async () => {
     try {
       setIsUploading(true);
       console.log(isUploading);
-      
+
       const numericHeight = parseInt(height);
       if (isNaN(numericHeight) || numericHeight < 50 || numericHeight > 300) {
         Alert.alert("Invalid height", "Please enter your height in cm.");
@@ -80,9 +80,8 @@ export default function PersonInformationScreen() {
     } catch (error) {
       console.error("Error:", error);
       Alert.alert("Error", "could not create new scan");
-    }
-    finally{
-        setIsUploading(false);
+    } finally {
+      setIsUploading(false);
     }
   };
 
@@ -111,7 +110,7 @@ export default function PersonInformationScreen() {
             keyboardType="numeric"
             placeholderTextColor="#999"
             maxLength={3}
-          />    
+          />
           <Button
             onPress={handleSubmit}
             title="Next"
@@ -158,7 +157,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)", // Slightly dim the background
   },
-  textloader:{
-    color:"white",
-  }
+  textloader: {
+    color: "white",
+  },
 });

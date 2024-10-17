@@ -71,19 +71,21 @@ const styles = StyleSheet.create({
   },
   primary: {
     backgroundColor: "#3f96fd",
-    paddingVertical: 20,
+    paddingVertical: 15,
   },
   secondary: {
     backgroundColor: "white",
-    borderColor: "lightgray",
-    borderWidth: 5,
-    paddingVertical: 16,
+    borderColor: "#3f96fd",
+    borderWidth: 0,
+    paddingVertical: 15,
+    shadowRadius: 1,
+    shadowOpacity: 0.25,
   },
   disabledStyle: {
     backgroundColor: "gray",
   },
   text: {
-    fontSize: 33,
+    fontSize: 23,
   },
   textprimary: {
     color: "white",
