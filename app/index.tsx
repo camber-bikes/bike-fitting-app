@@ -33,8 +33,11 @@ export default function HomeScreen() {
     Alert.alert("Error", "the api is not healthy");
   });
 
-  useEffect(() => {
-    if (!person?.uuid) return;
+  const handleClick = () => {
+    if (!person) {
+      navigate("personinformation");
+      return;
+    }
 
     const addScan = async () => {
       try {
@@ -49,9 +52,8 @@ export default function HomeScreen() {
 
     addScan();
 
-    setNextSite("photo-tutorial");
-  }, [person]);
-
+    navigate("photo-tutorial");
+  };
   return (
     <View style={styles.container}>
       <Image
@@ -63,18 +65,14 @@ export default function HomeScreen() {
         <Text style={styles.title}>Start bike fitting</Text>
       </View>
       <View style={styles.button}>
-        {person?.uuid && (
+        {person && (
           <Button
             type="secondary"
             onPress={() => navigate("history")}
             title="History"
           />
         )}
-        <Button
-          type="primary"
-          onPress={() => navigate(nextSite)}
-          title="Start scan"
-        />
+        <Button type="primary" onPress={handleClick} title="Start scan" />
       </View>
     </View>
   );

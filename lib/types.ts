@@ -5,6 +5,7 @@ export type Person = {
 };
 
 export type Scan = {
+  created_at: string;
   scan_uuid: string | null;
   person_uuid: string | null;
 };

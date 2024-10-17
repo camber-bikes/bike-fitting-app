@@ -40,17 +40,15 @@ export default function RootLayout() {
     async function getPerson() {
       try {
         const jsonValue = await AsyncStorage.getItem("person");
-        const val = jsonValue != null ? JSON.parse(jsonValue) : null;
+        const val =
+          jsonValue != null ? JSON.parse(JSON.parse(jsonValue)) : null;
         updatePerson(val);
       } catch (e) {
         // read error
       }
-
-      console.log("Done.");
     }
     getPerson();
   }, []);
-
   useEffect(() => {
     if (loaded) {
       SplashScreen.hideAsync();

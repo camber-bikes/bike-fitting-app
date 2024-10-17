@@ -15,7 +15,11 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { PersonContext } from "@/app/index";
 import { Scan } from "@/lib/types";
-
+import { FlipInEasyX } from "react-native-reanimated";
+import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
+import TimeAgo from "javascript-time-ago";
+import en from "javascript-time-ago/locale/en";
+TimeAgo.addDefaultLocale(en);
 export default function History() {
   const { person } = useContext(PersonContext);
   const [scans, setScans] = useState<Scan[]>([]);
@@ -24,6 +28,9 @@ export default function History() {
   const { navigate } =
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
+  const timeAgo = new TimeAgo("en-US");
+  const offset = new Date().getTimezoneOffset();
+
   useEffect(() => {
     const fetchData = async () => {
       const resp = await fetch(`${BASE_URL}/persons/${person.uuid}/scans`);
@@ -31,9 +38,10 @@ export default function History() {
       setScans(data);
       setLoading(false);
     };
-
-    fetchData();
-  }, []);
+    if (person) {
+      fetchData();
+    }
+  }, [person]);
 
   if (loading) {
     return (
@@ -58,11 +66,36 @@ export default function History() {
           >
             <View style={styles.entry}>
               <Image
-                style={{ height: 300, resizeMode: "contain" }}
+                style={{ height: 100, width: 100, resizeMode: "fill" }}
                 source={{
-                  uri: /* "https://reactnative.dev/img/tiny_logo.png" */ `${BASE_URL}/scans/${item.scan_uuid}/photos/body.jpg`,
+                  uri: `${BASE_URL}/scans/${item.scan_uuid}/photos/body.jpg`,
                 }}
               />
+              <View>
+                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                  Past Scan
+                </Text>
+                <Text>
+                  {timeAgo.format(
+                    new Date(
+                      new Date(item.created_at).getTime() - offset * 60000,
+                    ),
+                  )}
+                </Text>
+              </View>
+              <View
+                style={{
+                  alignSelf: "center",
+                  marginLeft: "auto",
+                  paddingRight: 20,
+                }}
+              >
+                <FontAwesome5
+                  name={"chevron-right"}
+                  size={25}
+                  color={"black"}
+                />
+              </View>
             </View>
           </Pressable>
         )}
@@ -79,7 +112,13 @@ const styles = StyleSheet.create({
     alignItems: "center",
     backgroundColor: "rgba(0, 0, 0, 0.5)",
   },
-  entry: { backgroundColor: "#ddd" },
+  entry: {
+    backgroundColor: "#ddd",
+    display: "flex",
+    flexDirection: "row",
+
+    gap: 10,
+  },
   textloader: {
     color: "white",
   },
