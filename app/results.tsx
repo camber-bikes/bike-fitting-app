@@ -8,10 +8,12 @@ import {
   View,
   Text,
   Alert,
+  useColorScheme,
 } from "react-native";
 import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
 import { ThemedText } from "@/components/ThemedText";
+import { ThemedView } from "@/components/ThemedView";
 
 export default function ResultsScreen() {
   const ref = useRef(null);
@@ -21,6 +23,8 @@ export default function ResultsScreen() {
   const [result_x, setResultX] = useState(-100);
   const [result_y, setResultY] = useState(-100);
   const { scan_uuid } = useContext(ScanContext);
+  const colorScheme = useColorScheme();
+  const themeVideoContariner = colorScheme === 'light' ? styles.lightVideoContainer : styles.darkVideoContainer;
   const player = useVideoPlayer(videoLink, (player) => {
     player.loop = true;
     player.play();
@@ -74,7 +78,7 @@ export default function ResultsScreen() {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <View style={styles.videoContainer}>
+        <View style={[styles.videoContainer, themeVideoContariner]}>
           <VideoView ref={ref} style={styles.video} player={player} />
         </View>
       </View>
@@ -112,7 +116,7 @@ const styles = StyleSheet.create({
     width: "100%",
     paddingBottom: 50,
     paddingTop: 50,
-    backgroundColor: "#ddd",
+
   },
   video: {
     height: 500,
@@ -121,4 +125,10 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 30,
   },
+  lightVideoContainer:{
+    backgroundColor: "#ddd"
+  },
+  darkVideoContainer:{
+    backgroundColor:"#282828"
+  }
 });
