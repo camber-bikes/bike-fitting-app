@@ -62,31 +62,31 @@ export default function RootLayout() {
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
           <Stack>
-            <Stack.Screen name="index" options={{ headerShown: false }} />
+            <Stack.Screen name="index" options={{ headerShown: false, title: "Home" }} />
             <Stack.Screen
               name="personinformation"
-              options={{ title: "Person Information" }}
+              options={{ title: "Person Information", headerBackTitle:"Back" }}
             />
             <Stack.Screen
               name="photo-tutorial"
-              options={{ title: "Photo tutorial" }}
+              options={{ title: "Photo tutorial", headerBackTitle: "Back" }}
             />
             <Stack.Screen
               name="video-tutorial"
-              options={{ title: "Video tutorial" }}
+              options={{ title: "Video tutorial", headerBackTitle: "Back" }}
             />
-            <Stack.Screen name="results" options={{ title: "Results" }} />
+            <Stack.Screen name="results" options={{ title: "Results", headerBackTitle: "Back" }} />
             <Stack.Screen
               name="recordPhoto"
-              options={{ title: "Take a photo of your whole body" }}
+              options={{ title: "Take picture", headerBackTitle: "Back" }}
             />
             <Stack.Screen
               name="recordVideo"
-              options={{ title: "Take a photo of your on bike pedalling " }}
+              options={{ title: "Record the video", headerBackTitle: "Back" }}
             />
             <Stack.Screen
               name="history"
-              options={{ title: "Previous Scans " }}
+              options={{ title: "Previous Scans", headerBackTitle: "Back" }}
             />
           </Stack>
         </ThemeProvider>

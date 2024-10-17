@@ -8,6 +8,7 @@ import {
   StyleSheet,
   FlatList,
   Pressable,
+  useColorScheme,
 } from "react-native";
 
 import { ScanContext } from "@/app/index";
@@ -20,6 +21,9 @@ import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 TimeAgo.addDefaultLocale(en);
+import { ThemedText } from "@/components/ThemedText";
+
+
 export default function History() {
   const { person } = useContext(PersonContext);
   const [scans, setScans] = useState<Scan[]>([]);
@@ -30,6 +34,8 @@ export default function History() {
 
   const timeAgo = new TimeAgo("en-US");
   const offset = new Date().getTimezoneOffset();
+  const colorScheme = useColorScheme();
+  const cardTheme = colorScheme === 'light' ? styles.lightCard : styles.darkCard;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -64,7 +70,7 @@ export default function History() {
               navigate("results");
             }}
           >
-            <View style={styles.entry}>
+            <View style={[styles.entry, cardTheme]}>
               <Image
                 style={{ height: 100, width: 100, resizeMode: "fill" }}
                 source={{
@@ -72,16 +78,16 @@ export default function History() {
                 }}
               />
               <View>
-                <Text style={{ fontSize: 20, fontWeight: "bold" }}>
+                <ThemedText style={{ fontSize: 20, fontWeight: "bold" }}>
                   Past Scan
-                </Text>
-                <Text>
+                </ThemedText>
+                <ThemedText>
                   {timeAgo.format(
                     new Date(
                       new Date(item.created_at).getTime() - offset * 60000,
                     ),
                   )}
-                </Text>
+                </ThemedText>
               </View>
               <View
                 style={{
@@ -90,10 +96,10 @@ export default function History() {
                   paddingRight: 20,
                 }}
               >
-                <FontAwesome5
+                <FontAwesome5 
                   name={"chevron-right"}
                   size={25}
-                  color={"black"}
+                  color={colorScheme === 'light' ? ("black"):("white")}
                 />
               </View>
             </View>
@@ -116,9 +122,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ddd",
     display: "flex",
     flexDirection: "row",
-
+    borderBottomWidth:2,
+    borderBottomColor:"#fff",
     gap: 10,
   },
+  darkCard:{
+    backgroundColor:"#282828",
+  },
+  lightCard:{},
   textloader: {
     color: "white",
   },

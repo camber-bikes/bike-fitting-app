@@ -83,7 +83,7 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
         type: "image/jpeg",
         name: "image.jpg",
       });
-
+    
       const photo_response = await fetch(
         `${BASE_URL}/scans/${scan_uuid}/photos/body`,
         {
@@ -225,6 +225,6 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#111", // Slightly dim the background
+      backgroundColor: "#111",
   },
 });

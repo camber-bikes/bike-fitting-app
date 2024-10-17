@@ -7,6 +7,7 @@ import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/n
 import Button from "../components/Button";
 import { Person } from "../lib/types";
 import createScan from "@/lib/api";
+import { ThemedText } from "@/components/ThemedText";
 
 export const PersonContext = React.createContext<{
   person: Person;
@@ -60,9 +61,10 @@ export default function HomeScreen() {
         style={styles.homeImage}
         source={require("../assets/images/sascha.jpeg")}
         contentFit="cover"
-      />
+      /> 
       <View style={styles.titleView}>
-        <Text style={styles.title}>Start bike fitting</Text>
+        <Text style={styles.title}>AI-Bike Fitting </Text>
+        <Text style={styles.subtitle}>by Camber Bikes </Text>
       </View>
       <View style={styles.button}>
         {person && (
@@ -96,6 +98,11 @@ const styles = StyleSheet.create({
     fontSize: 40,
     fontWeight: "bold",
     marginTop: 16,
+  },
+  subtitle:{
+    textAlign: "center",
+    fontSize: 25,
+    fontWeight: "bold",
   },
   homeImage: {
     width: width,

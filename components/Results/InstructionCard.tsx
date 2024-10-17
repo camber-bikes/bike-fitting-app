@@ -7,11 +7,15 @@ import {
   Text,
   StyleSheet,
   Pressable,
+  TextInput,
+  useColorScheme,
 } from "react-native";
 import Button from "../Button";
 import { useNavigation } from "expo-router";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { ParamListBase } from "@react-navigation/native";
+import { ThemedText } from "../ThemedText";
+import { ThemedView } from "../ThemedView";
 
 type Direction = "up" | "down" | "left" | "right";
 
@@ -27,6 +31,8 @@ export default function InstructionCard({
 
   const [isToggled, setIsToggled] = useState(false);
   const [heightAnimation] = useState(new Animated.Value(0));
+  const colorScheme = useColorScheme();
+  const cardThemeBackground = colorScheme === 'light' ? styles.lightCardBackground : styles.darkCardBackground;
 
   const toggleAccordion = () => {
     setIsToggled((old) => !old);
@@ -41,8 +47,8 @@ export default function InstructionCard({
   return (
     <View>
       <Pressable onPress={toggleAccordion}>
-        <View style={styles.card}>
-          <View style={styles.cardTitle}>
+        <View style={[styles.card, cardThemeBackground]}>
+          <View style={[styles.cardTitle]}>
             <View style={styles.iconHolder}>
               <View style={styles.saddleIconContainer}>
                 <Image
@@ -52,17 +58,17 @@ export default function InstructionCard({
               </View>
               <FontAwesome5
                 name={"arrow-" + direction}
-                style={styles.arrowIcon}
+                style={[styles.arrowIcon, cardThemeBackground]}
               />
             </View>
-            <Text style={styles.resultText}>{`${amount} cm`}</Text>
-            <Text style={styles.resultText}>{`Move saddle ${direction}`}</Text>
+            <Text style={[styles.resultText, cardThemeBackground]}>{`${amount} cm`}</Text>
+            <Text style={[styles.resultText, cardThemeBackground]}>{`Move saddle ${direction}`}</Text>
           </View>
         </View>
         <Animated.View style={{ height: heightAnimation }}>
           {isToggled && (
-            <View>
-              <Text style={styles.resultText}>
+            <ThemedView style={[cardThemeBackground]}>
+              <ThemedText style={[styles.resultText, cardThemeBackground]}>
                 {direction == "up"
                   ? `Your saddle is too low. Adjust it by ${amount} cm to achieve an optimal knee angle for improved cycling efficiency and long-term joint health.`
                   : direction == "down"
@@ -72,8 +78,8 @@ export default function InstructionCard({
                       : direction == "right"
                         ? `Your saddle is too far left. Shift it ${amount} cm to the right for optimal balance, which enhances your back posture and promotes healthy joint movement.`
                         : ""}
-              </Text>
-            </View>
+              </ThemedText>
+            </ThemedView>
           )}
         </Animated.View>
       </Pressable>
@@ -115,9 +121,11 @@ const styles = StyleSheet.create({
     alignItems: "center",
     cursor: "pointer",
   },
+
   saddleIconContainer: {
     width: 25,
     aspectRatio: 1,
+    marginLeft:50
   },
   saddleIcon: {
     top: 0,
@@ -140,10 +148,22 @@ const styles = StyleSheet.create({
   buttons: {
     width: "100%",
     display: "flex",
+    alignItems: "center",
     gap: 10,
     flexDirection: "row",
+    justifyContent: "center",
+    marginBottom:20
+    
   },
   button: {
-    width: "50%",
+    width: "45%",
   },
+  lightCardBackground:{
+    backgroundColor:"#fff",
+    color: "#11181C"
+  },
+  darkCardBackground: {
+    backgroundColor: "#282828",
+    color: "#ECEDEE"
+  }
 });

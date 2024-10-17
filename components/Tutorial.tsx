@@ -9,6 +9,8 @@ import React from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { ThemedText } from "./ThemedText";
+import { ThemedView } from "./ThemedView";
 
 export default function Tutorial({
   nextScreen,
@@ -25,18 +27,18 @@ export default function Tutorial({
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
-    <View style={styles.container}>
-      <View style={styles.topSection}>
+    <ThemedView style={styles.container}>
+      <ThemedView style={styles.topSection}>
         <Image style={styles.image} source={imageSource} />
-      </View>
-      <View style={styles.bottomSection}>
-        <Text style={styles.title}>{title}</Text>
-        <Text style={styles.paragraph}>{description}</Text>
-      </View>
-      <View style={styles.buttonStyle}>
+      </ThemedView>
+      <ThemedView style={styles.bottomSection}>
+        <ThemedText style={styles.title}>{title}</ThemedText>
+        <ThemedText style={styles.paragraph}>{description}</ThemedText>
+      </ThemedView>
+      <ThemedView style={styles.buttonStyle}>
         <Button onPress={() => navigate(nextScreen)} title="Next" />
-      </View>
-    </View>
+      </ThemedView>
+    </ThemedView>
   );
 }
 
@@ -64,6 +66,7 @@ const styles = StyleSheet.create({
   title: {
     fontSize: 30,
     fontWeight: "bold",
+    lineHeight: 28,
   },
   paragraph: {
     marginTop: 20,

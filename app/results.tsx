@@ -11,6 +11,7 @@ import {
 } from "react-native";
 import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
+import { ThemedText } from "@/components/ThemedText";
 
 export default function ResultsScreen() {
   const ref = useRef(null);
@@ -63,15 +64,15 @@ export default function ResultsScreen() {
     return (
       <View style={styles.loadingScreen}>
         <ActivityIndicator size="large" color="#ffffff" />
-        <Text style={styles.textloader}>
+        <ThemedText style={styles.textloader}>
           Loading your results, please hang on
-        </Text>
+        </ThemedText>
       </View>
     );
   }
 
   return (
-    <ScrollView>
+    <ScrollView style={styles.container}>
       <View>
         <View style={styles.videoContainer}>
           <VideoView ref={ref} style={styles.video} player={player} />
@@ -93,6 +94,10 @@ export default function ResultsScreen() {
 }
 
 const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    position: "relative",
+  },
   loadingScreen: {
     flex: 1,
     height: "100%",
