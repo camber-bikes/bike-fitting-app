@@ -7,15 +7,8 @@ import {
   Text,
   StyleSheet,
   Pressable,
-  TextInput,
   useColorScheme,
 } from "react-native";
-import Button from "../Button";
-import { useNavigation } from "expo-router";
-import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
-import { ParamListBase } from "@react-navigation/native";
-import { ThemedText } from "../ThemedText";
-import { ThemedView } from "../ThemedView";
 
 type Direction = "up" | "down" | "left" | "right";
 
@@ -26,13 +19,13 @@ export default function InstructionCard({
   direction: Direction;
   amount: number;
 }) {
-  const { navigate } =
-    useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
   const [isToggled, setIsToggled] = useState(false);
   const [heightAnimation] = useState(new Animated.Value(0));
   const colorScheme = useColorScheme();
-  const cardThemeBackground = colorScheme === 'light' ? styles.lightCardBackground : styles.darkCardBackground;
+  const cardThemeBackground =
+    colorScheme === "light"
+      ? styles.lightCardBackground
+      : styles.darkCardBackground;
 
   const toggleAccordion = () => {
     setIsToggled((old) => !old);
@@ -52,7 +45,11 @@ export default function InstructionCard({
             <View style={styles.iconHolder}>
               <View style={styles.saddleIconContainer}>
                 <Image
-                  source={colorScheme === 'light' ? (require("@/assets/images/saddle-dark.png")):(require("@/assets/images/saddle-light.png"))}
+                  source={
+                    colorScheme === "light"
+                      ? require("@/assets/images/saddle-dark.png")
+                      : require("@/assets/images/saddle-light.png")
+                  }
                   style={styles.saddleIcon}
                 />
               </View>
@@ -61,14 +58,18 @@ export default function InstructionCard({
                 style={[styles.arrowIcon, cardThemeBackground]}
               />
             </View>
-            <Text style={[styles.resultText, cardThemeBackground]}>{`${amount} cm`}</Text>
-            <Text style={[styles.resultText, cardThemeBackground]}>{`Move saddle ${direction}`}</Text>
+            <Text
+              style={[styles.resultText, cardThemeBackground]}
+            >{`${amount} cm`}</Text>
+            <Text
+              style={[styles.resultText, cardThemeBackground]}
+            >{`Move saddle ${direction}`}</Text>
           </View>
         </View>
         <Animated.View style={{ height: heightAnimation }}>
           {isToggled && (
-            <ThemedView style={[cardThemeBackground]}>
-              <ThemedText style={[styles.resultText, cardThemeBackground]}>
+            <Text style={[cardThemeBackground]}>
+              <Text style={[styles.resultText, cardThemeBackground]}>
                 {direction == "up"
                   ? `Your saddle is too low. Adjust it by ${amount} cm to achieve an optimal knee angle for improved cycling efficiency and long-term joint health.`
                   : direction == "down"
@@ -78,24 +79,11 @@ export default function InstructionCard({
                       : direction == "right"
                         ? `Your saddle is too far left. Shift it ${amount} cm to the right for optimal balance, which enhances your back posture and promotes healthy joint movement.`
                         : ""}
-              </ThemedText>
-            </ThemedView>
+              </Text>
+            </Text>
           )}
         </Animated.View>
       </Pressable>
-      <View style={styles.buttons}>
-        <Button
-          style={styles.button}
-          type="secondary"
-          onPress={() => navigate("history")}
-          title="History"
-        />
-        <Button
-          style={styles.button}
-          onPress={() => navigate("index")}
-          title="Home"
-        />
-      </View>
     </View>
   );
 }
@@ -125,7 +113,7 @@ const styles = StyleSheet.create({
   saddleIconContainer: {
     width: 25,
     aspectRatio: 1,
-    marginLeft:50
+    marginLeft: 50,
   },
   saddleIcon: {
     top: 0,
@@ -145,25 +133,12 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "center",
   },
-  buttons: {
-    width: "100%",
-    display: "flex",
-    alignItems: "center",
-    gap: 10,
-    flexDirection: "row",
-    justifyContent: "center",
-    marginBottom:20
-    
-  },
-  button: {
-    width: "45%",
-  },
-  lightCardBackground:{
-    backgroundColor:"#fff",
-    color: "#11181C"
+  lightCardBackground: {
+    backgroundColor: "#fff",
+    color: "#11181C",
   },
   darkCardBackground: {
     backgroundColor: "#282828",
-    color: "#ECEDEE"
-  }
+    color: "#ECEDEE",
+  },
 });

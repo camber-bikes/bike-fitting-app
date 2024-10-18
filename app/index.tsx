@@ -61,7 +61,7 @@ export default function HomeScreen() {
         style={styles.homeImage}
         source={require("../assets/images/sascha.jpeg")}
         contentFit="cover"
-      /> 
+      />
       <View style={styles.titleView}>
         <Text style={styles.title}>AI-Bike Fitting </Text>
         <Text style={styles.subtitle}>by Camber Bikes </Text>
@@ -99,7 +99,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
     marginTop: 16,
   },
-  subtitle:{
+  subtitle: {
     textAlign: "center",
     fontSize: 25,
     fontWeight: "bold",

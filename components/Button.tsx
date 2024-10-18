@@ -1,4 +1,10 @@
-import { Text, Pressable, StyleSheet, ViewStyle, useColorScheme } from "react-native";
+import {
+  Text,
+  Pressable,
+  StyleSheet,
+  ViewStyle,
+  useColorScheme,
+} from "react-native";
 
 type ButtonType = "primary" | "secondary";
 
@@ -30,16 +36,21 @@ export default function Button(props: ButtonProps) {
   const propsWithDefaults: ButtonPropsValid = { ...defaultProps, ...props };
   const { title, type, onPress, disabled, style } = propsWithDefaults;
   const colorScheme = useColorScheme();
-  const themesecondary = colorScheme === 'light' ? styles.lightSecondaryButton : styles.darkSecondaryButton;
-  const themeprimary = colorScheme === 'light' ? styles.lightPrimaryButton : styles.darkPrimaryButton;
-  const themeButton = type === "primary" ? themeprimary : themesecondary ;
+  const themesecondary =
+    colorScheme === "light"
+      ? styles.lightSecondaryButton
+      : styles.darkSecondaryButton;
+  const themeprimary =
+    colorScheme === "light"
+      ? styles.lightPrimaryButton
+      : styles.darkPrimaryButton;
+  const themeButton = type === "primary" ? themeprimary : themesecondary;
 
   return (
     <Pressable
       onPress={() => {
         if (!disabled) onPress();
       }}
-
       style={[
         themeButton,
         styles.pressable,
@@ -82,7 +93,6 @@ const styles = StyleSheet.create({
     paddingVertical: 15,
   },
   secondary: {
-    
     borderColor: "#3f96fd",
     borderWidth: 0,
     paddingVertical: 15,
@@ -96,7 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 23,
   },
   textprimary: {
-    
     fontWeight: "bold",
   },
   textsecondary: {
@@ -110,12 +119,12 @@ const styles = StyleSheet.create({
     color: "white",
   },
   darkPrimaryButton: {
-    color:"#282828", 
+    color: "#282828",
   },
-  lightSecondaryButton:{
+  lightSecondaryButton: {
     backgroundColor: "white",
   },
-  darkSecondaryButton:{
-    backgroundColor: "#282828"
+  darkSecondaryButton: {
+    backgroundColor: "#282828",
   },
 });
