@@ -16,7 +16,6 @@ import { ParamListBase, useNavigation } from "@react-navigation/native";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { PersonContext } from "@/app/index";
 import { Scan } from "@/lib/types";
-import { FlipInEasyX } from "react-native-reanimated";
 import FontAwesome5 from "@expo/vector-icons/FontAwesome5";
 import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";

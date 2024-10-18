@@ -41,7 +41,7 @@ export function CameraFrame({ cameraMode }: CameraFrameProps) {
     base64: true,
   });
   const [videoSettings, setVideoSettings] = useState<CameraRecordingOptions>({
-    maxDuration: 20,
+    maxDuration: 5,
   });
   const [pictureSize, setPictureSize] = useState<string>("");
   const { scan_uuid } = useContext(ScanContext);
