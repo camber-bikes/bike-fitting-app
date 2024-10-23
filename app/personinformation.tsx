@@ -25,7 +25,10 @@ import { ThemedText } from "@/components/ThemedText";
 
 export default function PersonInformationScreen() {
   const colorScheme = useColorScheme();
-  const themeTextInputStyle = colorScheme === 'light' ? styles.lightThemeTextInput : styles.darkThemeTextInput;
+  const themeTextInputStyle =
+    colorScheme === "light"
+      ? styles.lightThemeTextInput
+      : styles.darkThemeTextInput;
   const { navigate } =
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
   const [name, setName] = useState("");
@@ -148,11 +151,9 @@ const styles = StyleSheet.create({
     marginBottom: 20,
     textAlign: "center",
     fontSize: 18,
-    
-    
   },
-  lightThemeTextInput:{
-  color:"#11181C",
+  lightThemeTextInput: {
+    color: "#11181C",
   },
   darkThemeTextInput: {
     color: "#ECEDEE",

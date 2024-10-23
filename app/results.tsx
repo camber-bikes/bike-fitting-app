@@ -1,33 +1,37 @@
 import InstructionCard from "@/components/Results/InstructionCard";
-import { useVideoPlayer, VideoView } from "expo-video";
 import { useContext, useEffect, useRef, useState } from "react";
 import {
   ActivityIndicator,
   StyleSheet,
   ScrollView,
   View,
-  Text,
   Alert,
   useColorScheme,
 } from "react-native";
+import { ResizeMode, Video } from "expo-av";
 import { BASE_URL } from "@/constants/Api";
 import { ScanContext } from "@/app/index";
 import { ThemedText } from "@/components/ThemedText";
+import Button from "@/components/Button";
+import { useNavigation } from "expo-router";
+import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
+import { ParamListBase } from "@react-navigation/native";
 
 export default function ResultsScreen() {
+  const { navigate } =
+    useNavigation<NativeStackNavigationProp<ParamListBase>>();
+
   const ref = useRef(null);
-  const [isPlaying, setIsPlaying] = useState(true);
   const [loading, setLoading] = useState(true);
   const [videoLink, setVideoLink] = useState("");
   const [result_x, setResultX] = useState(-100);
   const [result_y, setResultY] = useState(-100);
   const { scan_uuid } = useContext(ScanContext);
   const colorScheme = useColorScheme();
-  const themeVideoContariner = colorScheme === 'light' ? styles.lightVideoContainer : styles.darkVideoContainer;
-  const player = useVideoPlayer(videoLink, (player) => {
-    player.loop = true;
-    player.play();
-  });
+  const themeVideoContainer =
+    colorScheme === "light"
+      ? styles.lightVideoContainer
+      : styles.darkVideoContainer;
 
   useEffect(() => {
     let interval: NodeJS.Timeout;
@@ -53,16 +57,6 @@ export default function ResultsScreen() {
     return () => clearInterval(interval);
   }, [loading]);
 
-  useEffect(() => {
-    const subscription = player.addListener("playingChange", (isPlaying) => {
-      setIsPlaying(isPlaying);
-    });
-
-    return () => {
-      subscription.remove();
-    };
-  }, [player]);
-
   if (loading) {
     return (
       <View style={styles.loadingScreen}>
@@ -77,8 +71,17 @@ export default function ResultsScreen() {
   return (
     <ScrollView style={styles.container}>
       <View>
-        <View style={[styles.videoContainer, themeVideoContariner]}>
-          <VideoView ref={ref} style={styles.video} player={player} />
+        <View style={[styles.videoContainer, themeVideoContainer]}>
+          <Video
+            ref={ref}
+            source={{ uri: videoLink }}
+            rate={1.0}
+            isMuted={true}
+            shouldPlay
+            isLooping={true}
+            style={styles.video}
+            resizeMode={ResizeMode.CONTAIN}
+          />
         </View>
       </View>
       <View style={styles.instructionsContainer}>
@@ -87,13 +90,21 @@ export default function ResultsScreen() {
           amount={Math.round(result_y * 10) / 10}
         ></InstructionCard>
       </View>
+      <View style={styles.buttons}>
+        <Button
+          style={styles.button}
+          type="secondary"
+          onPress={() => navigate("history")}
+          title="History"
+        />
+        <Button
+          style={styles.button}
+          onPress={() => navigate("index")}
+          title="Home"
+        />
+      </View>
     </ScrollView>
   );
-  // use this once horizontal adjustment is implemented
-  // <InstructionCard
-  //   direction={result_x > 0 ? "left" : "right"}
-  //   amount={Math.round(result_x * 10) / 10}
-  // ></InstructionCard>
 }
 
 const styles = StyleSheet.create({
@@ -113,9 +124,7 @@ const styles = StyleSheet.create({
   },
   videoContainer: {
     width: "100%",
-    paddingBottom: 50,
-    paddingTop: 50,
-
+    padding: 50,
   },
   video: {
     height: 500,
@@ -124,10 +133,22 @@ const styles = StyleSheet.create({
     width: "100%",
     marginTop: 30,
   },
-  lightVideoContainer:{
-    backgroundColor: "#ddd"
+  lightVideoContainer: {
+    backgroundColor: "#ddd",
   },
-  darkVideoContainer:{
-    backgroundColor:"#282828"
-  }
+  darkVideoContainer: {
+    backgroundColor: "#282828",
+  },
+  buttons: {
+    width: "100%",
+    display: "flex",
+    alignItems: "center",
+    gap: 10,
+    flexDirection: "row",
+    justifyContent: "center",
+    marginBottom: 20,
+  },
+  button: {
+    width: "45%",
+  },
 });

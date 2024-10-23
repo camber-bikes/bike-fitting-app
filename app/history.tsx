@@ -22,7 +22,6 @@ import en from "javascript-time-ago/locale/en";
 TimeAgo.addDefaultLocale(en);
 import { ThemedText } from "@/components/ThemedText";
 
-
 export default function History() {
   const { person } = useContext(PersonContext);
   const [scans, setScans] = useState<Scan[]>([]);
@@ -34,7 +33,8 @@ export default function History() {
   const timeAgo = new TimeAgo("en-US");
   const offset = new Date().getTimezoneOffset();
   const colorScheme = useColorScheme();
-  const cardTheme = colorScheme === 'light' ? styles.lightCard : styles.darkCard;
+  const cardTheme =
+    colorScheme === "light" ? styles.lightCard : styles.darkCard;
 
   useEffect(() => {
     const fetchData = async () => {
@@ -95,10 +95,10 @@ export default function History() {
                   paddingRight: 20,
                 }}
               >
-                <FontAwesome5 
+                <FontAwesome5
                   name={"chevron-right"}
                   size={25}
-                  color={colorScheme === 'light' ? ("black"):("white")}
+                  color={colorScheme === "light" ? "black" : "white"}
                 />
               </View>
             </View>
@@ -121,14 +121,14 @@ const styles = StyleSheet.create({
     backgroundColor: "#ddd",
     display: "flex",
     flexDirection: "row",
-    borderBottomWidth:2,
-    borderBottomColor:"#fff",
+    borderBottomWidth: 2,
+    borderBottomColor: "#fff",
     gap: 10,
   },
-  darkCard:{
-    backgroundColor:"#282828",
+  darkCard: {
+    backgroundColor: "#282828",
   },
-  lightCard:{},
+  lightCard: {},
   textloader: {
     color: "white",
   },
