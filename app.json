@@ -18,7 +18,8 @@
       }
     },
     "ios": {
-      "supportsTablet": true
+      "supportsTablet": true,
+      "bundleIdentifier": "com.camberbikes.bikefitting"
     },
     "android": {
       "adaptiveIcon": {
@@ -27,7 +28,8 @@
       },
       "permissions": [
         "android.permission.CAMERA",
-        "android.permission.RECORD_AUDIO"
+        "android.permission.RECORD_AUDIO",
+        "android.permission.MODIFY_AUDIO_SETTINGS"
       ],
       "package": "com.camberbikes.bikefitting"
     },

@@ -14,13 +14,13 @@ export const PersonContext = React.createContext<{
   updatePerson: (person: Person) => void;
 }>({
   person: { name: "default", uuid: null, height: 0 },
-  updatePerson: () => {},
+  updatePerson: () => { },
 });
 
 export const ScanContext = React.createContext<{
   scan_uuid: string;
   updateScanUUID: (newUuid: string) => void;
-}>({ scan_uuid: "", updateScanUUID: () => {} });
+}>({ scan_uuid: "", updateScanUUID: () => { } });
 
 export default function HomeScreen() {
   const { navigate } =

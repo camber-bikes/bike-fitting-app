@@ -11,9 +11,10 @@ import "react-native-reanimated";
 import { PersonContext, ScanContext } from "@/app/index";
 
 import { useColorScheme } from "@/hooks/useColorScheme";
-import { View } from "react-native-reanimated/lib/typescript/Animated";
 import { Person } from "@/lib/types";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { StatusBar } from "react-native";
+import { useThemeColor } from "@/hooks/useThemeColor";
 
 // Prevent the splash screen from auto-hiding before asset loading is complete.
 SplashScreen.preventAutoHideAsync();
@@ -29,7 +30,7 @@ export default function RootLayout() {
     uuid: "",
     height: 0,
   });
-  const updateScanUUID = (newScanUUID) => {
+  const updateScanUUID = (newScanUUID: string) => {
     setScanUUID(newScanUUID);
   };
   const updatePerson = (newPerson: Person) => {
@@ -61,6 +62,7 @@ export default function RootLayout() {
         <ThemeProvider
           value={colorScheme === "dark" ? DarkTheme : DefaultTheme}
         >
+          <StatusBar barStyle={useThemeColor({}, "text")} backgroundColor={useThemeColor({}, "background")} />
           <Stack>
             <Stack.Screen
               name="index"
