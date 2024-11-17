@@ -1,4 +1,4 @@
-import { StyleSheet, Image, ImageSourcePropType } from "react-native";
+import { StyleSheet, Image, ImageSourcePropType, Text } from "react-native";
 import { ReactNode } from "react";
 import { ParamListBase, useNavigation } from "@react-navigation/native";
 import Button from "../components/Button";
@@ -23,6 +23,7 @@ export default function Tutorial({
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
 
   return (
+
     <ThemedView style={styles.container}>
       <ThemedView style={styles.topSection}>
         <Image style={styles.image} source={imageSource} />
@@ -32,7 +33,7 @@ export default function Tutorial({
         {children}
       </ThemedView>
       <ThemedView style={styles.buttonStyle}>
-        <Button onPress={() => navigate(nextScreen)} title="Next" />
+        <Button onPress={() => navigate(nextScreen)} title="Next" type="primary" />
       </ThemedView>
     </ThemedView>
   );
@@ -41,6 +42,7 @@ export default function Tutorial({
 const styles = StyleSheet.create({
   container: {
     height: "100%",
+    flex: 1,
   },
   topSection: {
     backgroundColor: "#ddd",
@@ -49,11 +51,13 @@ const styles = StyleSheet.create({
     display: "flex",
     alignItems: "center",
     justifyContent: "center",
+    flex: 1,
   },
   bottomSection: {
     height: "50%",
     display: "flex",
-    padding: 30,
+    padding: 20,
+    flex: 1,
   },
   image: {
     resizeMode: "contain",

@@ -18,10 +18,10 @@ import { ScanContext } from "@/app/index";
 import { BASE_URL } from "@/constants/Api";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import Button from "../components/Button";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 import createScan from "@/lib/api";
 import { Person } from "@/lib/types";
 import { ThemedText } from "@/components/ThemedText";
+import { storage } from "@/lib/mmkv";
 
 export default function PersonInformationScreen() {
   const colorScheme = useColorScheme();
@@ -75,7 +75,7 @@ export default function PersonInformationScreen() {
 
       try {
         const jsonValue = JSON.stringify(JSON.stringify(person));
-        await AsyncStorage.setItem("person", jsonValue);
+        storage.set('person', jsonValue)
       } catch (e) {
         console.error("Error Saving Person to Local KV Store");
       }

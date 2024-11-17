@@ -8,19 +8,21 @@ import Button from "../components/Button";
 import { Person } from "../lib/types";
 import createScan from "@/lib/api";
 import { ThemedText } from "@/components/ThemedText";
+import { MMKV } from 'react-native-mmkv'
+import { storage } from "@/lib/mmkv";
 
 export const PersonContext = React.createContext<{
   person: Person;
   updatePerson: (person: Person) => void;
 }>({
   person: { name: "default", uuid: null, height: 0 },
-  updatePerson: () => {},
+  updatePerson: () => { },
 });
 
 export const ScanContext = React.createContext<{
   scan_uuid: string;
   updateScanUUID: (newUuid: string) => void;
-}>({ scan_uuid: "", updateScanUUID: () => {} });
+}>({ scan_uuid: "", updateScanUUID: () => { } });
 
 export default function HomeScreen() {
   const { navigate } =
@@ -33,9 +35,8 @@ export default function HomeScreen() {
     console.error(err);
     Alert.alert("Error", "the api is not healthy");
   });
-
   const handleClick = () => {
-    if (!person) {
+    if (person?.height == 0) {
       navigate("personinformation");
       return;
     }
@@ -67,7 +68,7 @@ export default function HomeScreen() {
         <Text style={styles.subtitle}>by Camber Bikes </Text>
       </View>
       <View style={styles.button}>
-        {person && (
+        {person?.height != 0 && (
           <Button
             type="secondary"
             onPress={() => navigate("history")}

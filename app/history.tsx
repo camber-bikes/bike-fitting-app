@@ -21,6 +21,7 @@ import TimeAgo from "javascript-time-ago";
 import en from "javascript-time-ago/locale/en";
 TimeAgo.addDefaultLocale(en);
 import { ThemedText } from "@/components/ThemedText";
+import { storage } from "@/lib/mmkv";
 
 export default function History() {
   const { person } = useContext(PersonContext);
@@ -29,7 +30,6 @@ export default function History() {
   const { updateScanUUID } = useContext(ScanContext);
   const { navigate } =
     useNavigation<NativeStackNavigationProp<ParamListBase>>();
-
   const timeAgo = new TimeAgo("en-US");
   const offset = new Date().getTimezoneOffset();
   const colorScheme = useColorScheme();
@@ -37,10 +37,19 @@ export default function History() {
     colorScheme === "light" ? styles.lightCard : styles.darkCard;
 
   useEffect(() => {
+    if (storage.contains('cache:history')) {
+      setLoading(false);
+      const jsonValue = storage.getString('cache:history')
+      const val = JSON.parse(jsonValue)
+      setScans(val)
+
+    }
+
     const fetchData = async () => {
       const resp = await fetch(`${BASE_URL}/persons/${person.uuid}/scans`);
       const data = await resp.json();
       setScans(data);
+      storage.set('cache:history', JSON.stringify(data))
       setLoading(false);
     };
     if (person) {

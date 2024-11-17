@@ -16,6 +16,7 @@ import Button from "@/components/Button";
 import { useNavigation } from "expo-router";
 import { NativeStackNavigationProp } from "react-native-screens/lib/typescript/native-stack/types";
 import { ParamListBase } from "@react-navigation/native";
+import { storage } from "@/lib/mmkv";
 
 export default function ResultsScreen() {
   const { navigate } =
@@ -34,6 +35,13 @@ export default function ResultsScreen() {
       : styles.darkVideoContainer;
 
   useEffect(() => {
+    setVideoLink(`${BASE_URL}/scans/${scan_uuid}/videos/pedalling.mp4`);
+    if (storage.contains('cache:scan:' + scan_uuid)) {
+      const jsonValue = JSON.parse(storage.getString('cache:scan:' + scan_uuid))
+      setResultX(jsonValue?.saddle_x_cm)
+      setResultY(jsonValue?.saddle_y_cm)
+      setLoading(false)
+    }
     let interval: NodeJS.Timeout;
     const checkEndpoint = async () => {
       try {
@@ -43,9 +51,9 @@ export default function ResultsScreen() {
         if (data.done) {
           setResultX(data.saddle_x_cm);
           setResultY(data.saddle_y_cm);
-          setVideoLink(`${BASE_URL}/scans/${scan_uuid}/videos/pedalling.mp4`);
           setLoading(false);
           clearInterval(interval);
+          storage.set("cache:scan:" + scan_uuid, JSON.stringify(data))
         }
       } catch (error) {
         console.error("Error fetching endpoint:", error);
