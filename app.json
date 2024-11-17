@@ -1,5 +1,6 @@
 {
   "expo": {
+   "newArchEnabled": true,
     "name": "bike-fitting",
     "slug": "bike-fitting",
     "version": "1.0.0",
