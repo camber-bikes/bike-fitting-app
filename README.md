@@ -1,6 +1,18 @@
+![GitHub License](https://img.shields.io/github/license/camber-bikes/bike-fitting-app)
+![GitHub commit activity](https://img.shields.io/github/commit-activity/m/camber-bikes/bike-fitting-app)
+![Static Badge](https://img.shields.io/badge/build-not%20implemented-orange)
+![Static Badge](https://img.shields.io/badge/%F0%9F%8D%BA_Buy_us_a_beer-yellow)
+
+
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/camber-bikes/bike-fitting-api/migrate-db.yml?label=backend%20db%20migrations)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/camber-bikes/bike-fitting-api/build-backend-gcp.yml?label=backend%20deploy)
+![GitHub Actions Workflow Status](https://img.shields.io/github/actions/workflow/status/camber-bikes/bike-fitting-api/build-serverless.yml?label=serverless%20build)
+
+
 # Camber Bikes Bike Fitting App
 
 A mobile application built with React Native and Expo for bike fitting and saddle adjustment. Built for the "Silicon Valley IT Talent Program 2024" by Team "Camber Bikes".
+
 
 ## Releases
 For prebuilt APKs, please check out the [Releases page](https://github.com/camber-bikes/bike-fitting-app/releases).
@@ -57,3 +69,8 @@ This project is licensed under the AGPLv3 License - see the [LICENSE](LICENSE) f
 
 ---
 Built with ❤️ by Camber Bikes
+
+
+## Support us
+
+<a href="https://www.buymeacoffee.com/camberbikes"><img src="https://img.buymeacoffee.com/button-api/?text=Buy us a Beer &emoji=🍺&slug=camberbikes&button_colour=FFDD00&font_colour=000000&font_family=Arial&outline_colour=000000&coffee_colour=ffffff" /></a>
