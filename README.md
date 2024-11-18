@@ -1,50 +1,59 @@
-# Welcome to your Expo app 👋
+# Camber Bikes Bike Fitting App
 
-This is an [Expo](https://expo.dev) project created with [`create-expo-app`](https://www.npmjs.com/package/create-expo-app).
+A mobile application built with React Native and Expo for bike fitting and saddle adjustment. Built for the "Silicon Valley IT Talent Program 2024" by Team "Camber Bikes".
 
-## Get started
+## Releases
+For prebuilt APKs, please check out the [Releases page](https://github.com/camber-bikes/bike-fitting-app/releases).
 
-1. Install dependencies
+## Prerequisites
+Before you begin, ensure you have installed:
+- [Bun](https://bun.sh) (latest version)
+- iOS Simulator (Mac only) or Android Studio (for Android emulator)
 
-   ```bash
-   npm install
-   ```
-
-2. Start the app
-
-   ```bash
-    npx expo start
-   ```
-
-In the output, you'll find options to open the app in a
-
-- [development build](https://docs.expo.dev/develop/development-builds/introduction/)
-- [Android emulator](https://docs.expo.dev/workflow/android-studio-emulator/)
-- [iOS simulator](https://docs.expo.dev/workflow/ios-simulator/)
-- [Expo Go](https://expo.dev/go), a limited sandbox for trying out app development with Expo
-
-You can start developing by editing the files inside the **app** directory. This project uses [file-based routing](https://docs.expo.dev/router/introduction).
-
-## Get a fresh project
-
-When you're ready, run:
-
+## Development
+1. Install dependencies:
 ```bash
-npm run reset-project
+bun install
 ```
 
-This command will move the starter code to the **app-example** directory and create a blank **app** directory where you can start developing.
+2. Start the development server:
+```bash
+bun run android  # Android Development
+bun run ios      # iOS Development
+bun run start --tunnel  # Development through Expo GO
+```
 
-## Learn more
+## Environment Setup
+The API URL the app uses is defined in `constants/Api.ts`. For development or if you host your own instance, change it to your own base URL.
 
-To learn more about developing your project with Expo, look at the following resources:
+## Building
+For building packages, we use EAS:
+- Create a Preview APK for Android using the EAS cloud service:
+```bash
+bunx eas-cli build --platform android --profile preview
+```
 
-- [Expo documentation](https://docs.expo.dev/): Learn fundamentals, or go into advanced topics with our [guides](https://docs.expo.dev/guides).
-- [Learn Expo tutorial](https://docs.expo.dev/tutorial/introduction/): Follow a step-by-step tutorial where you'll create a project that runs on Android, iOS, and the web.
+## Key Technologies
+- React & React Native
+- Expo SDK 52 with Expo Router 4.0
+- UI Kitten & React Native Paper
+- Expo Camera & AV for media handling
+- React Native MMKV for storage/cache
+- React Native Reanimated & Gesture Handler
+- TypeScript for development
+- React Navigation
+- Expo Vector Icons & SVG support
+- Full iOS & Android platform support
 
-## Join the community
+## Contributing
+1. Fork the repository
+2. Create your feature branch (`git checkout -b feature/amazing-feature`)
+3. Commit your changes using [Conventional Commits](https://www.conventionalcommits.org/en/v1.0.0/) (`git commit -m 'feat(scope): what did you change'`)
+4. Push to the branch (`git push origin feature/amazing-feature`)
+5. Open a Pull Request
 
-Join our community of developers creating universal apps.
+## License
+This project is licensed under the AGPLv3 License - see the [LICENSE](LICENSE) file for details.
 
-- [Expo on GitHub](https://github.com/expo/expo): View our open source platform and contribute.
-- [Discord community](https://chat.expo.dev): Chat with Expo users and ask questions.
+---
+Built with ❤️ by Camber Bikes
