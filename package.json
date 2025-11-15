@@ -36,7 +36,7 @@
     "javascript-time-ago": "^2.5.11",
     "react": "18.3.1",
     "react-dom": "18.3.1",
-    "react-native": "0.76.2",
+    "react-native": "0.81.0",
     "react-native-gesture-handler": "~2.20.0",
     "react-native-mmkv": "^3.1.0",
     "react-native-paper": "^5.12.5",
